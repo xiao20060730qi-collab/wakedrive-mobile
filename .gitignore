@@ -1,0 +1,31 @@
+# Android / Gradle
+.gradle/
+app/build/
+build/
+local.properties
+*.iml
+.idea/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# iOS / Xcode / CocoaPods
+ios/build/
+ios/Pods/
+ios/WakeDriveMobile.xcodeproj/
+ios/WakeDriveMobile.xcworkspace/
+*.xcuserstate
+DerivedData/
+
+# Build artifacts (too large for git; use Releases for distribution)
+*.apk
+*.ipa
+*.zip
+
+# System
+.DS_Store
+Thumbs.db
+
+# Model binaries are downloaded by the iOS CI workflow from the public site
+ios/WakeDriveMobile/Resources/models/
+app/src/main/assets/models/

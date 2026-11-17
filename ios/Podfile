@@ -1,0 +1,9 @@
+platform :ios, '16.0'
+use_frameworks!
+
+target 'WakeDriveMobile' do
+  # MediaPipe Face Landmarker (iOS Task API)
+  pod 'MediaPipeTasksVision', '0.10.14'
+  # ONNX Runtime for YOLO11n / YOLOv8-pose / 6DRepNet
+  pod 'onnxruntime-objc', '1.22.0'
+end

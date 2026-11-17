@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WakeDrive 监测</string>
+    <string name="login_title">登录 WakeDrive</string>
+    <string name="login_subtitle">使用已注册的驾驶账号登录，监测数据保存到当前账号</string>
+    <string name="username">用户名</string>
+    <string name="password">密码</string>
+    <string name="login">登录</string>
+    <string name="login_failed">登录失败，请检查账号密码或网络</string>
+    <string name="server_hint">服务器：wakedrive.xyz（可在设置中修改）</string>
+    <string name="start_monitoring">▶ 开启监测</string>
+    <string name="stop_monitoring">■ 停止监测</string>
+    <string name="monitoring_ready">点击开启摄像头开始监测</string>
+    <string name="camera_permission_required">需要摄像头权限才能监测</string>
+    <string name="events">事件记录</string>
+    <string name="logout">退出登录</string>
+    <string name="face_not_detected">未检测到人脸</string>
+    <string name="face_detected">已检测到人脸</string>
+</resources>

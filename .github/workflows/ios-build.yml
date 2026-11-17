@@ -1,0 +1,66 @@
+name: iOS Build (unsigned IPA)
+
+# 在 GitHub 的 macOS runner 上构建 iOS 工程，产出未签名 IPA。
+# 下载 IPA 后，可在 Windows 上用 Sideloadly/AltStore 配免费 Apple ID 签名安装到 iPhone。
+# 手动触发：仓库 Actions 页面 → iOS Build → Run workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install XcodeGen and CocoaPods
+        run: |
+          brew install xcodegen cocoapods
+          pod --version
+
+      - name: Fetch model assets from the public site
+        working-directory: ios/WakeDriveMobile/Resources/models
+        run: |
+          for name in face_landmarker.task yolo11n.onnx yolov8n-pose.onnx 6drepnet360.onnx; do
+            curl -fL --retry 3 --max-time 600 -o "$name" "https://wakedrive.xyz/frontend/models/$name"
+          done
+          ls -la
+
+      - name: Generate Xcode project and install pods
+        working-directory: ios
+        run: |
+          xcodegen generate
+          pod install
+
+      - name: Build archive (unsigned)
+        working-directory: ios
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -workspace WakeDriveMobile.xcworkspace \
+            -scheme WakeDriveMobile \
+            -configuration Release \
+            -sdk iphoneos \
+            -archivePath "$PWD/build/WakeDriveMobile.xcarchive" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            archive | xcpretty || (xcodebuild -workspace WakeDriveMobile.xcworkspace -scheme WakeDriveMobile -configuration Release -sdk iphoneos -archivePath "$PWD/build/WakeDriveMobile.xcarchive" CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" archive)
+
+      - name: Package unsigned IPA
+        working-directory: ios
+        run: |
+          mkdir -p build/Payload
+          cp -R build/WakeDriveMobile.xcarchive/Products/Applications/WakeDriveMobile.app build/Payload/
+          cd build
+          zip -qry WakeDriveMobile-unsigned.ipa Payload
+
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: WakeDriveMobile-unsigned-ipa
+          path: ios/build/WakeDriveMobile-unsigned.ipa
+          retention-days: 30

@@ -1,0 +1,39 @@
+name: WakeDriveMobile
+options:
+  bundleIdPrefix: com.wakedrive
+  deploymentTarget:
+    iOS: "16.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    SWIFT_VERSION: "5.9"
+    IPHONEOS_DEPLOYMENT_TARGET: "16.0"
+targets:
+  WakeDriveMobile:
+    type: application
+    platform: iOS
+    sources:
+      - path: WakeDriveMobile
+      - path: WakeDriveMobile/Resources/models
+        buildPhase: resources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.wakedrive.mobile
+        TARGETED_DEVICE_FAMILY: "1"
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: WakeDriveMobile/Info.plist
+    info:
+      path: WakeDriveMobile/Info.plist
+      properties:
+        CFBundleDisplayName: WakeDrive 监测
+        NSCameraUsageDescription: 需要摄像头进行驾驶员疲劳监测，画面仅在本机处理。
+        NSLocationWhenInUseUsageDescription: 车速联动需要定位权限，用于自动开启/结束监测。
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: true
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
