@@ -1,8 +1,10 @@
-name: iOS Build (unsigned IPA)
+name: iOS Build (unsigned + development-signed IPA)
 
-# 在 GitHub 的 macOS runner 上构建 iOS 工程，产出未签名 IPA。
-# 下载 IPA 后，可在 Windows 上用 Sideloadly/AltStore 配免费 Apple ID 签名安装到 iPhone。
-# 手动触发：仓库 Actions 页面 → iOS Build → Run workflow
+# 云构建两种模式：
+# 1) 未配置签名 Secrets 时：产出无签名 IPA（用于 Sideloadly/爱思 侧载）
+# 2) 配置了 APPLE_CERT_P12_BASE64 / APPLE_CERT_PASSWORD / APPLE_PROVISION_PROFILE_BASE64 /
+#    APPLE_TEAM_ID / APPLE_PROFILE_NAME 后：额外产出开发证书签名的 Debug IPA（阿里云 EMAS 云真机要求）
+# 手动触发：仓库 Actions → iOS Build → Run workflow
 
 on:
   workflow_dispatch:
@@ -36,10 +38,86 @@ jobs:
           xcodegen generate
           pod install
 
-      - name: Build archive (unsigned)
+      - name: Import signing certificate and profile
+        if: ${{ secrets.APPLE_CERT_P12_BASE64 != '' }}
+        env:
+          CERT_BASE64: ${{ secrets.APPLE_CERT_P12_BASE64 }}
+          CERT_PASSWORD: ${{ secrets.APPLE_CERT_PASSWORD }}
+          PROFILE_BASE64: ${{ secrets.APPLE_PROVISION_PROFILE_BASE64 }}
+        run: |
+          set -euo pipefail
+          CERT="$RUNNER_TEMP/cert.p12"
+          PROFILE="$RUNNER_TEMP/profile.mobileprovision"
+          echo "$CERT_BASE64" | base64 --decode > "$CERT"
+          echo "$PROFILE_BASE64" | base64 --decode > "$PROFILE"
+          security cms -D -i "$PROFILE" > "$RUNNER_TEMP/profile.plist"
+          UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" "$RUNNER_TEMP/profile.plist")
+          mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
+          cp "$PROFILE" "$HOME/Library/MobileDevice/Provisioning Profiles/$UUID.mobileprovision"
+          security create-keychain -p actions build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p actions build.keychain
+          security import "$CERT" -k build.keychain -P "$CERT_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple: -s -k actions build.keychain
+
+      - name: Build development-signed IPA
+        if: ${{ secrets.APPLE_CERT_P12_BASE64 != '' }}
+        working-directory: ios
+        env:
+          TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          PROFILE_NAME: ${{ secrets.APPLE_PROFILE_NAME }}
+        run: |
+          set -euo pipefail
+          xcodebuild \
+            -workspace WakeDriveMobile.xcworkspace \
+            -scheme WakeDriveMobile \
+            -configuration Debug \
+            -sdk iphoneos \
+            -archivePath "$PWD/build/WakeDriveMobile.xcarchive" \
+            DEVELOPMENT_TEAM="$TEAM_ID" \
+            CODE_SIGN_STYLE=Manual \
+            CODE_SIGN_IDENTITY="Apple Development" \
+            PROVISIONING_PROFILE_SPECIFIER="$PROFILE_NAME" \
+            -allowProvisioningUpdates \
+            archive
+          cat > ExportOptions.plist <<EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key>
+            <string>development</string>
+            <key>signingStyle</key>
+            <string>manual</string>
+            <key>teamID</key>
+            <string>$TEAM_ID</string>
+            <key>provisioningProfiles</key>
+            <dict>
+              <key>com.wakedrive.mobile</key>
+              <string>$PROFILE_NAME</string>
+            </dict>
+          </dict>
+          </plist>
+          EOF
+          xcodebuild -exportArchive \
+            -archivePath "$PWD/build/WakeDriveMobile.xcarchive" \
+            -exportPath "$PWD/build/export" \
+            -exportOptionsPlist ExportOptions.plist \
+            -allowProvisioningUpdates
+          cp build/export/WakeDriveMobile.ipa build/WakeDriveMobile-development.ipa
+
+      - name: Upload development IPA
+        if: ${{ secrets.APPLE_CERT_P12_BASE64 != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: WakeDriveMobile-development-ipa
+          path: ios/build/WakeDriveMobile-development.ipa
+          retention-days: 30
+
+      - name: Build unsigned IPA (fallback)
+        if: ${{ secrets.APPLE_CERT_P12_BASE64 == '' }}
         working-directory: ios
         run: |
-          set -o pipefail
           xcodebuild \
             -workspace WakeDriveMobile.xcworkspace \
             -scheme WakeDriveMobile \
@@ -49,9 +127,10 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
-            archive | xcpretty || (xcodebuild -workspace WakeDriveMobile.xcworkspace -scheme WakeDriveMobile -configuration Release -sdk iphoneos -archivePath "$PWD/build/WakeDriveMobile.xcarchive" CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" archive)
+            archive
 
       - name: Package unsigned IPA
+        if: ${{ secrets.APPLE_CERT_P12_BASE64 == '' }}
         working-directory: ios
         run: |
           mkdir -p build/Payload
@@ -59,7 +138,8 @@ jobs:
           cd build
           zip -qry WakeDriveMobile-unsigned.ipa Payload
 
-      - name: Upload IPA artifact
+      - name: Upload unsigned IPA
+        if: ${{ secrets.APPLE_CERT_P12_BASE64 == '' }}
         uses: actions/upload-artifact@v4
         with:
           name: WakeDriveMobile-unsigned-ipa

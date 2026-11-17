@@ -29,3 +29,9 @@ Thumbs.db
 # Model binaries are downloaded by the iOS CI workflow from the public site
 ios/WakeDriveMobile/Resources/models/
 app/src/main/assets/models/
+
+# Local signing material (private key / p12 / profile) — never commit
+ios-signing/
+
+# Local iOS build artifacts / installers
+ios-artifacts/
