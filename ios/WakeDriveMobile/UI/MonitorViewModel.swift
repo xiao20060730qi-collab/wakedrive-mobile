@@ -243,6 +243,12 @@ final class MonitorViewModel: NSObject, ObservableObject, CLLocationManagerDeleg
         }
     }
 
+    private func currentFace() -> FaceMetrics? {
+        stateLock.lock()
+        defer { stateLock.unlock() }
+        return latestFace
+    }
+
     private func handleFaceUI(metrics: FaceMetrics, result: RiskResult) {
         DispatchQueue.main.async {
             self.score = result.score
@@ -418,10 +424,7 @@ final class MonitorViewModel: NSObject, ObservableObject, CLLocationManagerDeleg
         var samples: [(Float, Float)] = []
         let start = Date()
         while Date().timeIntervalSince(start) < 10 {
-            stateLock.lock()
-            let face = latestFace
-            stateLock.unlock()
-            if let face, face.faceDetected, face.blinkScore < 0.35, let ear = face.ear, let mar = face.mar {
+            if let face = currentFace(), face.faceDetected, face.blinkScore < 0.35, let ear = face.ear, let mar = face.mar {
                 samples.append((ear, mar))
             }
             try? await Task.sleep(nanoseconds: 300_000_000)

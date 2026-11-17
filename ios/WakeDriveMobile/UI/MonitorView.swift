@@ -10,7 +10,7 @@ struct MonitorScreen: View {
     @State private var showEngineer = false
     @State private var calibrationAlert = false
     @State private var calibrationMessage = ""
-    @State private var calibrationValues: (Float, Float, Int)?
+    @State private var calibrationValues: (Float, Float)?
     @State private var cameraDenied = false
     @State private var pendingSim: String?
 

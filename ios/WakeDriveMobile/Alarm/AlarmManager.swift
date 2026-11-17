@@ -26,9 +26,9 @@ final class AlarmManager {
         if !enabled || silentStyle { stop() }
     }
 
-    func update(_ next: String, message: String? = nil) {
+    func update(_ next: String, _ message: String? = nil) {
         guard Thread.isMainThread else {
-            ensureMain { self.update(next, message: message) }
+            ensureMain { self.update(next, message) }
             return
         }
         guard enabled, !silentStyle else { return }
@@ -49,9 +49,9 @@ final class AlarmManager {
         }
     }
 
-    func event(_ kind: String, message: String? = nil) {
+    func event(_ kind: String, _ message: String? = nil) {
         guard Thread.isMainThread else {
-            ensureMain { self.event(kind, message: message) }
+            ensureMain { self.event(kind, message) }
             return
         }
         guard enabled, !silentStyle else { return }
