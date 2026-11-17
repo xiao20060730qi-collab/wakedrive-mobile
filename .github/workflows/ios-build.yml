@@ -22,8 +22,9 @@ jobs:
           pod --version
 
       - name: Fetch model assets from the public site
-        working-directory: ios/WakeDriveMobile/Resources/models
         run: |
+          mkdir -p ios/WakeDriveMobile/Resources/models
+          cd ios/WakeDriveMobile/Resources/models
           for name in face_landmarker.task yolo11n.onnx yolov8n-pose.onnx 6drepnet360.onnx; do
             curl -fL --retry 3 --max-time 600 -o "$name" "https://wakedrive.xyz/frontend/models/$name"
           done
