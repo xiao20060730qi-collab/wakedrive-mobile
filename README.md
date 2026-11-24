@@ -9,6 +9,7 @@
 ## 目录
 
 - [项目简介](#项目简介)
+- [下载](#下载)
 - [功能特性](#功能特性)
 - [技术栈](#技术栈)
 - [仓库结构](#仓库结构)
@@ -27,6 +28,17 @@ WakeDrive 面向真实驾驶场景，通过摄像头画面实时识别驾驶员�
 与"固定档位判断"不同，WakeDrive 使用时间窗口对多类信号做**连续风险评分**（0–100），并按轻度 / 中度 / 重度分级预警；同时把驾驶事件（含抓拍图）、监测报告与统计数据保存到账号，Web、Android、iOS 三端使用同一套账号体系与后端服务。
 
 所有检测模型均在**端侧本地推理**（手机端四模型并行、浏览器端模型 + OpenCV 图像处理），画面数据不上传云端，只有风险事件与抓拍快照会在触发时上报，兼顾实时性与隐私。
+
+## 下载
+
+| 端 | 下载 / 使用方式 |
+|---|---|
+| Android | **[下载 WakeDrive Android v1.2（Debug APK，242.5 MB）](https://github.com/xiao20060730qi-collab/wakedrive-mobile/releases/download/android-v1.2/WakeDrive-Mobile-v1.2-debug.apk)** |
+| 网页端 | 直接访问 <https://wakedrive.xyz>，注册账号即可使用，无需安装 |
+| iOS | 未提供预编译包，可通过 GitHub Actions 云构建未签名 IPA 后自行签名安装，步骤见 [`ios/README.md`](ios/README.md) |
+
+> Android 安装包为 Debug 构建（全 ABI，未签名发布），默认连接 `https://wakedrive.xyz/api`；安装时需按系统提示允许「安装未知来源应用」。
+> 所有版本安装包统一归档在 [Releases](https://github.com/xiao20060730qi-collab/wakedrive-mobile/releases) 页面，可随时查看与下载。
 
 ## 功能特性
 
@@ -131,6 +143,8 @@ python -m uvicorn app:app --host 0.0.0.0 --port 8000
 首次启动会自动创建空数据库；打开网页端注册新账号即可开始使用。可选环境变量（如 AI 密钥、数据库引擎）见 [`backend/README.md`](backend/README.md)。
 
 ### Android
+
+**直接安装**：从 [Releases](https://github.com/xiao20060730qi-collab/wakedrive-mobile/releases) 下载已构建的 Debug APK（见上文 [下载](#下载) 一节）；也可以按下面的步骤本地构建。
 
 环境要求：JDK 17+、Android SDK（compileSdk 37）、Gradle 9.6。
 
