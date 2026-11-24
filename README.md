@@ -1,13 +1,15 @@
-# WakeDrive 疲劳驾驶检测 · 移动端（Android Kotlin + iOS SwiftUI）
+# WakeDrive 疲劳驾驶检测 · 全栈（Android Kotlin + iOS SwiftUI + 网页端 + Python 后端）
 
-> iOS 版本位于 [`ios/`](ios/README.md)：SwiftUI 工程 + MediaPipe Tasks + ONNX Runtime iOS，功能与 Android/网页对齐。iOS 需要 macOS + Xcode 构建，Windows 无法编译验证。
+> 仓库包含四部分：Android 原生端 [`app/`](app)、iOS 端 [`ios/`](ios/README.md)、网页端 [`website/`](website/README.md)（线上 <https://wakedrive.xyz>）、Python FastAPI 后端 [`backend/`](backend)。三端共用同一套账号体系、事件与报告接口。
 
-本目录是 WakeDrive 的 Android 原生重写版：**前端 Kotlin（CameraX + 原生 Views）**，**后端继续使用 Python（FastAPI）**，四个检测模型全部在手机本地推理，监测事件（含抓拍图）通过账号会话上传到后端，管理员后台可直接查看。
+> iOS 需要 macOS + Xcode 构建，Windows 无法编译验证；iOS 工程使用 SwiftUI + MediaPipe Tasks + ONNX Runtime iOS，功能与 Android / 网页端对齐。
+
+Android 端（`app/`）是 WakeDrive 的原生重写版：**前端 Kotlin（CameraX + 原生 Views）**，**后端继续使用 Python（FastAPI）**，四个检测模型全部在手机本地推理，监测事件（含抓拍图）通过账号会话上传到后端，管理员后台可直接查看。
 
 ## 目录结构
 
 ```
-疲劳驾驶检测移动端/
+wakedrive-mobile/
 ├── app/
 │   ├── build.gradle.kts                  # AGP 9.4 / Kotlin 2.3 / compileSdk 37 / minSdk 26
 │   └── src/main/
@@ -31,9 +33,33 @@
 │       │   │   └── OnnxRunner.kt         # ONNX Runtime 会话（模型落盘到 filesDir）
 │       │   └── ui/                       # Login / Monitor / Events / 遮罩与列表
 │       └── res/                          # 深色主题界面
-├── backend/                              # Python 后端源码（与网页版同源）
+├── backend/                              # Python 后端源码（Android / iOS / 网页端共用）
+├── website/                              # 网页端（wakedrive.xyz 线上版本 · 受保护构建，见 website/README.md）
+├── ios/                                  # iOS SwiftUI 工程（见 ios/README.md）
+├── .github/workflows/                    # iOS 构建流水线（GitHub Actions）
 └── gradle/                               # Gradle wrapper 配置（9.6.0）
 ```
+
+## 网页端（website/）
+
+线上站点：<https://wakedrive.xyz>（阿里云服务器 nginx + FastAPI，站点根目录 `/www/wwwroot/wakedrive.xyz`）。
+
+`website/` 是线上当前版本（2026-11-23）的**保护构建产物**，共 14 个页面：官网首页 + 网页工作台（登录 / 注册、实时监测、模型清单、事件、报告、统计、AI 解析、设置、管理员后台），以及四个浏览器端推理模型与 OpenCV 运行库。
+
+前端保护措施：
+
+- 业务 JS 全部混淆加密（字符串数组 Base64 编码 + 控制流平坦化 + 十六进制标识符 + 自防御），不可直接阅读或复用；
+- `frontend/js/guard.js`：域名锁（仅 `wakedrive.xyz` / `www.wakedrive.xyz` / `localhost` / `127.0.0.1` 可渲染，其他域名显示 403）、开发者工具检测、F12 与查看源码/保存/打印快捷键拦截、防右键/防选中/防复制、动态版权水印、iframe 防嵌套；
+- 公开仓库中不包含网页端明文源码；混淆用于提高抄袭与逆向成本，浏览器仍需执行代码，并非绝对不可破解。
+
+本地预览：
+
+```bash
+cd website
+python -m http.server 8080      # 打开 http://localhost:8080/
+```
+
+完整功能需同时启动 `backend/`（`frontend/js/config.js` 在 localhost 下会自动把 API 指向 `http://localhost:8000/api`）。部署时把 `website/` 内容放到 nginx 站点根目录、`/api` 反向代理到 FastAPI 服务即可，详见 [`website/README.md`](website/README.md)。
 
 ## 构建
 
