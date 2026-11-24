@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta name="copyright" content="WakeDrive (c) 2026, All Rights Reserved." />
+    <script src="js/guard.js?v=20261124"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <script src="js/prefs.js?v=20261122-1"></script>
+    <title>WakeDrive · 系统设置</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css?v=20261122-3" />
+    <link rel="stylesheet" href="css/workbench.css?v=20261117-2" />
+      <link rel="stylesheet" href="css/theme.css?v=20261122-1" />
+      <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=20261122" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=20261122" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="index.html"
+          ><div class="brand-mark">W</div>
+          <div>
+            <strong>WakeDrive<span>·AI</span></strong
+            ><small>驾驶安全智能平台</small>
+          </div></a
+        >
+        <div class="side-label">工作台</div>
+        <nav class="side-nav">
+          <a data-nav href="index.html"><i>⌂</i>工作台</a
+          ><a data-nav href="monitor.html"><i>◉</i>实时监测</a
+          >
+          <a data-nav href="models.html"><i>◇</i>模型清单</a><a data-nav href="alerts.html"><i>▤</i>事件记录</a
+          ><a data-nav href="reports.html"><i>▧</i>监测报告</a><a data-nav href="statistics.html"><i>▥</i>统计分析</a
+          ><a class="active" data-nav href="settings.html"><i>⚙</i>系统设置</a
+          ><a data-nav href="ai.html"><i>✦</i>AI 分析</a>
+        </nav>
+        <div class="sidebar-foot">
+          <div class="secure-dot"></div>
+          <div><b>账号数据保护</b><span>监测记录保存至当前账号</span></div>
+        </div>
+      </aside>
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">SYSTEM CONFIG</p>
+            <h1>系统设置</h1>
+          </div>
+          <div class="top-actions">
+            <span class="chip safe"
+              ><span class="status-dot"></span>系统运行中</span
+            ><span class="chip" data-data-source>正在连接账号数据</span
+            ><span class="clock" data-live-clock>--:--:--</span
+            ><a class="avatar" href="settings.html" aria-label="系统设置">S</a>
+          </div>
+        </header>
+        <section class="content">
+          <div class="page-header">
+            <div>
+              <p class="page-kicker">DETECTION PROFILE</p>
+              <h2 class="page-title">系统设置</h2>
+              <p class="page-subtitle">
+                调整检测阈值、提醒行为和当前司机信息。
+              </p>
+            </div>
+            <a class="button" href="index.html">← 返回工作台</a>
+          </div>
+          <form id="settingsForm">
+            <section class="card">
+              <div class="card-header">
+                <div>
+                  <h2 class="card-title">检测阈值</h2>
+                  <span class="muted">EAR/MAR 阈值与持续时间共同决定风险，可在实时监测页进行个人校准。</span>
+                </div>
+              </div>
+              <div class="form-grid">
+                <div class="form-field">
+                  <label for="earThreshold">EAR 闭眼阈值</label
+                  ><input
+                    id="earThreshold"
+                    type="number"
+                    min="0.05"
+                    max="0.8"
+                    step="0.01"
+                  /><small>建议范围 0.15 - 0.35</small>
+                </div>
+                <div class="form-field">
+                  <label for="marThreshold">MAR 打哈欠阈值</label
+                  ><input
+                    id="marThreshold"
+                    type="number"
+                    min="0.1"
+                    max="1"
+                    step="0.01"
+                  /><small>建议范围 0.45 - 0.65</small>
+                </div>
+                <div class="form-field">
+                  <label for="mildFrames">轻度持续单位数</label
+                  ><input
+                    id="mildFrames"
+                    type="number"
+                    min="1"
+                    max="30"
+                    step="1"
+                  />
+                </div>
+                <div class="form-field">
+                  <label for="mediumFrames">中度持续单位数</label
+                  ><input
+                    id="mediumFrames"
+                    type="number"
+                    min="1"
+                    max="60"
+                    step="1"
+                  />
+                </div>
+                <div class="form-field">
+                  <label for="heavyFrames">重度持续单位数</label
+                  ><input
+                    id="heavyFrames"
+                    type="number"
+                    min="1"
+                    max="120"
+                    step="1"
+                  />
+                </div>
+                <div class="form-field">
+                  <label for="cooldownMs">报警冷却时间（毫秒）</label
+                  ><input
+                    id="cooldownMs"
+                    type="number"
+                    min="100"
+                    max="60000"
+                    step="100"
+                  />
+                </div>
+                <div class="form-field">
+                  <label for="detectIntervalMs">判定参考间隔（毫秒）</label
+                  ><input
+                    id="detectIntervalMs"
+                    type="number"
+                    min="100"
+                    max="10000"
+                    step="10"
+                  />
+                  <small>持续时长 = 单位数 × 参考间隔；实际推理间隔最高 1 秒，避免长时间失去跟踪。</small>
+                </div>
+              </div>
+            </section>
+            <section class="card" style="margin-top: 16px">
+              <div class="card-header">
+                <div>
+                  <h2 class="card-title">告警行为</h2>
+                  <span class="muted"
+                    >保留语音和声音提示，确保驾驶员能及时感知</span
+                  >
+                </div>
+              </div>
+              <div class="form-grid">
+                <div class="form-field">
+                  <label for="alarmEnabled">报警开关</label
+                  ><select id="alarmEnabled">
+                    <option value="true">开启</option>
+                    <option value="false">关闭</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label for="alarmStyle">报警音效</label
+                  ><select id="alarmStyle">
+                    <option value="bell">语音 + 音效</option>
+                    <option value="voice">仅语音</option>
+                    <option value="silent">静音</option>
+                  </select>
+                </div>
+              </div>
+            </section>
+            <section class="card" style="margin-top: 16px">
+              <div class="card-header">
+                <div>
+                  <h2 class="card-title">司机信息</h2>
+                  <span class="muted">用于告警列表、报告和统计筛选</span>
+                </div>
+              </div>
+              <div class="form-grid">
+                <div class="form-field">
+                  <label for="driverName">司机姓名</label
+                  ><input id="driverName" autocomplete="name" required />
+                </div>
+                <div class="form-field">
+                  <label for="plateNumber">车牌号</label
+                  ><input id="plateNumber" autocomplete="off" required />
+                </div>
+              </div>
+            </section>
+            <section class="card" style="margin-top: 16px">
+              <div class="card-header">
+                <div>
+                  <h2 class="card-title">外观与提醒声音</h2>
+                  <span class="muted">仅保存在当前浏览器，不影响账号数据</span>
+                </div>
+              </div>
+              <div class="form-grid">
+                <div class="form-field">
+                  <label for="prefTheme">主题</label>
+                  <select id="prefTheme">
+                    <option value="system">跟随系统</option>
+                    <option value="light">浅色</option>
+                    <option value="dark">深色</option>
+                  </select>
+                  <small>监测页的画面区域固定深色，保证摄像头画面对比。</small>
+                </div>
+                <div class="form-field">
+                  <label for="prefVolume">提示音音量</label>
+                  <select id="prefVolume">
+                    <option value="low">低</option>
+                    <option value="medium">中（默认）</option>
+                    <option value="high">高</option>
+                  </select>
+                  <small>同时影响音效与语音播报音量。</small>
+                </div>
+                <div class="form-field">
+                  <label for="prefVoice">语音包</label>
+                  <select id="prefVoice">
+                    <option value="standard">标准（包含触发原因）</option>
+                    <option value="brief">简洁（短句提醒）</option>
+                    <option value="strict">严厉（强提醒）</option>
+                  </select>
+                  <small>在语音播报模式下生效。</small>
+                </div>
+                <div class="form-field">
+                  <label>试听当前设置</label>
+                  <div class="toolbar"><button class="button" id="prefTest" type="button">试听中度提醒</button></div>
+                  <small>使用系统语音与合成音效，浏览器需允许播放声音。</small>
+                </div>
+              </div>
+            </section>
+            <section class="page-actions" style="padding: 18px 0 0">
+              <span id="settingsStatus" class="status-line" hidden></span
+              ><button
+                class="button"
+                type="button"
+                onclick="resetSettingsPage()"
+              >
+                恢复默认</button
+              ><button class="button" id="testMediumAlarm" type="button">
+                试听中度</button
+              ><button class="button" id="testHeavyAlarm" type="button">
+                试听重度</button
+              ><button class="button primary" type="submit">保存设置</button>
+            </section>
+          </form>
+        </section>
+      </main>
+    </div>
+    <nav class="bottom-nav">
+      <a data-nav href="index.html"><i>⌂</i><span>工作台</span></a
+      ><a data-nav href="monitor.html"><i>◉</i><span>监测</span></a
+      >
+          <a data-nav href="models.html"><i>◇</i><span>模型</span></a><a data-nav href="alerts.html"><i>▤</i><span>事件</span></a
+      ><a data-nav href="reports.html"><i>▧</i><span>报告</span></a><a data-nav href="statistics.html"><i>▥</i><span>统计</span></a
+      ><a class="active" data-nav href="settings.html"
+        ><i>⚙</i><span>设置</span></a
+      >
+    </nav>
+    <script src="js/config.js?v=20261026-1"></script>
+    <script src="js/common.js?v=20261026-1"></script>
+    <script src="js/data.js?v=20261117-2"></script>
+    <script src="js/auth-client.js?v=20261026-1"></script>
+    <script src="js/auth-guard.js?v=20261026-1"></script>
+    <script src="js/app-shell.js?v=20261026-1"></script>
+    <script src="js/alarm-controller.js?v=20261122-1"></script>
+    <script src="js/settings.js?v=20261026-1"></script>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+OpenCV.js 4.3.0
+================
+
+opencv.js is the Emscripten glue from the opencv-wasm package
+(https://www.npmjs.com/package/opencv-wasm), downloaded from the npmmirror CDN.
+opencv.wasm is the matching WebAssembly binary. Both are loaded in a Web Worker
+for local ROI cropping, grayscale conversion, brightness/contrast/Laplacian
+quality checks and CLAHE enhancement before MobileNetV3 inference.
+
+OpenCV is licensed under the Apache License, Version 2.0.
+Project: https://opencv.org/  Documentation: https://docs.opencv.org/4.3.0/

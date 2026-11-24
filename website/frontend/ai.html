@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta name="copyright" content="WakeDrive (c) 2026, All Rights Reserved." />
+    <script src="js/guard.js?v=20261124"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <script src="js/prefs.js?v=20261122-1"></script>
+    <title>WakeDrive · AI 分析</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css?v=20261122-3" />
+    <link rel="stylesheet" href="css/workbench.css?v=20261117-2" />
+    <style>
+      .chat-feed {
+        min-height: 360px;
+        max-height: 520px;
+        overflow: auto;
+        padding: 4px 22px 20px;
+        display: grid;
+        gap: 14px;
+      }
+      .chat-row {
+        display: flex;
+        gap: 11px;
+        align-items: flex-start;
+      }
+      .chat-row.user {
+        justify-content: flex-end;
+      }
+      .chat-bubble {
+        max-width: 78%;
+        padding: 13px 15px;
+        border: 1px solid #2d5a70;
+        border-radius: 12px;
+        background: #081826;
+      }
+      .chat-row.user .chat-bubble {
+        background: #164d68;
+      }
+      .chat-bubble p {
+        white-space: pre-line;
+        font-size: 12px;
+        color: #c1d8e0;
+        line-height: 1.75;
+        margin: 6px 0;
+      }
+      .chat-bubble time {
+        display: block;
+        color: #527385;
+        font-size: 10px;
+      }
+      .chat-compose {
+        display: flex;
+        gap: 10px;
+        padding: 14px 22px 20px;
+        border-top: 1px solid #1c3a50;
+      }
+      .chat-compose textarea {
+        flex: 1;
+        resize: none;
+        border: 1px solid #2d5a70;
+        border-radius: 10px;
+        background: #091b2a;
+        color: #d7edf4;
+        padding: 11px 12px;
+        font: 12px sans-serif;
+      }
+      .chat-compose .primary-btn {
+        min-width: 86px;
+      }
+      @media (max-width: 700px) {
+        .chat-feed {
+          min-height: 46vh;
+          max-height: none;
+          padding: 4px 14px 14px;
+        }
+        .chat-bubble {
+          max-width: 86%;
+        }
+        .chat-compose {
+          position: sticky;
+          bottom: 0;
+          padding: 10px 14px calc(14px + env(safe-area-inset-bottom));
+          background: #0a1a27;
+        }
+        .chat-compose textarea {
+          font-size: 13px;
+        }
+      }
+    </style>
+      <link rel="stylesheet" href="css/theme.css?v=20261122-1" />
+      <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=20261122" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=20261122" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="index.html"
+          ><div class="brand-mark">W</div>
+          <div>
+            <strong>WakeDrive<span>·AI</span></strong
+            ><small>驾驶安全智能平台</small>
+          </div></a
+        >
+        <div class="side-label">工作台</div>
+        <nav class="side-nav">
+          <a data-nav href="index.html"><i>⌂</i>工作台</a
+          ><a data-nav href="monitor.html"><i>◉</i>实时监测</a
+          >
+          <a data-nav href="models.html"><i>◇</i>模型清单</a><a data-nav href="alerts.html"><i>▤</i>事件记录</a
+          ><a data-nav href="reports.html"><i>▧</i>监测报告</a><a data-nav href="statistics.html"><i>▥</i>统计分析</a
+          ><a data-nav href="settings.html"><i>⚙</i>系统设置</a
+          ><a class="active" data-nav href="ai.html"><i>✦</i>AI 分析</a>
+        </nav>
+        <div class="sidebar-foot">
+          <div class="secure-dot"></div>
+          <div><b>隐私保护模式</b><span>仅发送问题与匿名汇总</span></div>
+        </div>
+      </aside>
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">AI SAFETY ASSISTANT</p>
+            <h1>智能驾驶行为分析</h1>
+          </div>
+          <div class="top-actions">
+            <span class="chip safe"
+              ><span class="status-dot"></span>隐私保护模式</span
+            ><span class="chip" data-data-source>正在连接账号数据</span
+            ><span class="clock" data-live-clock>--:--:--</span
+            ><a class="avatar" href="settings.html" aria-label="系统设置">S</a>
+          </div>
+        </header>
+        <section class="content">
+          <div class="page-header">
+            <div>
+              <p class="page-kicker">DRIVING INSIGHTS</p>
+              <h2 class="page-title">驾驶安全分析助手</h2>
+              <p class="page-subtitle">
+                可回答通用问题；登录后可按需结合当前账号的设置和事件记录。
+              </p>
+            </div>
+            <div class="toolbar">
+              <a class="button" href="index.html">← 返回工作台</a
+              ><button class="button primary" id="analyze">✦ 开始分析</button>
+            </div>
+          </div>
+          <section class="card">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">AI 对话</h2>
+                <span class="muted" id="aiMode">DeepSeek 在线分析</span>
+              </div>
+            </div>
+            <div class="chat-feed" id="feed">
+              <div class="chat-row ai">
+                <div class="ai-avatar">✦</div>
+                <div class="chat-bubble">
+                  <span class="message-label">WakeDrive AI</span>
+                  <p>
+                    你好，我可以回答通用问题，也可以分析驾驶安全。无论当前是否有疲劳事件记录，都可以直接提问。
+                  </p>
+                  <time>现在</time>
+                </div>
+              </div>
+            </div>
+            <div class="chat-compose">
+              <textarea
+                id="prompt"
+                rows="2"
+                placeholder="例如：如何预防疲劳驾驶，或直接询问其他问题"
+              ></textarea
+              ><button class="primary-btn" id="send">发送 →</button>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+    <nav class="bottom-nav">
+      <a data-nav href="index.html"><i>⌂</i><span>工作台</span></a
+      ><a data-nav href="monitor.html"><i>◉</i><span>监测</span></a
+      >
+          <a data-nav href="models.html"><i>◇</i><span>模型</span></a><a data-nav href="alerts.html"><i>▤</i><span>事件</span></a
+      ><a data-nav href="reports.html"><i>▧</i><span>报告</span></a><a data-nav href="statistics.html"><i>▥</i><span>统计</span></a
+      ><a class="active" data-nav href="ai.html"><i>✦</i><span>AI</span></a><a data-nav href="settings.html"><i>⚙</i><span>设置</span></a>
+    </nav>
+    <script src="js/config.js?v=20261026-1"></script>
+    <script src="js/common.js?v=20261026-1"></script>
+    <script src="js/data.js?v=20261117-2"></script>
+    <script src="js/app-shell.js?v=20261026-1"></script>
+    <script src="js/ai-page.js?v=20261124"></script>
+  </body>
+</html>

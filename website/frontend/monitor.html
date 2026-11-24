@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta name="copyright" content="WakeDrive (c) 2026, All Rights Reserved." />
+    <script src="js/guard.js?v=20261124"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>WakeDrive · 实时监测</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css?v=20261026-1" />
+    <link rel="stylesheet" href="css/workbench.css?v=20261117-2" />
+    <link rel="stylesheet" href="css/monitoring.css?v=20261122-1" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="../index.html"
+          ><div class="brand-mark">W</div>
+          <div>
+            <strong>WakeDrive<span>·AI</span></strong
+            ><small>驾驶安全智能平台</small>
+          </div></a
+        >
+        <div class="side-label">工作台</div>
+        <nav class="side-nav">
+          <a data-nav href="../index.html"><i>⌂</i>工作台</a
+          ><a class="active" data-nav href="monitor.html"><i>◉</i>实时监测</a
+      >
+          <a data-nav href="models.html"><i>◇</i>模型清单</a><a data-nav href="alerts.html"><i>▤</i>事件记录</a
+          ><a data-nav href="reports.html"><i>▧</i>监测报告</a><a data-nav href="statistics.html"><i>▥</i>统计分析</a
+          ><a data-nav href="settings.html"><i>⚙</i>系统设置</a
+          ><a data-nav href="ai.html"><i>✦</i>AI 分析</a>
+        </nav>
+        <div class="sidebar-foot">
+          <div class="secure-dot"></div>
+          <div><b>账号数据保护</b><span>监测记录保存至当前账号</span></div>
+        </div>
+      </aside>
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">实时驾驶员状态</p>
+            <h1>实时监测</h1>
+          </div>
+          <div class="top-actions">
+            <span class="chip safe" id="engineerChip"
+              ><span class="status-dot"></span>AI 引擎运行中</span
+            ><span class="chip" id="dataSource">模型加载中</span
+            ><span class="clock" data-live-clock>--:--:--</span
+            ><a class="avatar" href="settings.html" aria-label="系统设置">S</a>
+          </div>
+        </header>
+        <section class="content">
+          <div class="page-header">
+            <div>
+              <p class="page-kicker">CAMERA FEED · FACE TRACKING</p>
+              <h2 class="page-title">实时驾驶监测</h2>
+              <p class="page-subtitle">
+                通过摄像头实时感知眼部与头部行为，及时发现疲劳风险。
+              </p>
+            </div>
+            <div class="toolbar">
+              <a class="button" href="models.html">◇ 查看模型清单</a>
+              <a class="button" href="../index.html">← 返回工作台</a
+              ><button class="button" id="restStopBtn" type="button">◈ 附近休息点</button
+              ><button class="button" id="fullscreenBtn">⛶ 全屏</button>
+            </div>
+          </div>
+          <section class="monitor-inputs" aria-label="监测来源">
+            <div class="source-controls">
+              <button class="button primary" id="cameraSourceBtn" type="button" aria-pressed="true">◉ 摄像头监测</button>
+              <button class="button" id="videoSourceBtn" type="button" aria-pressed="false">▷ 本地视频检测</button>
+              <input type="file" id="videoFile" accept="video/*" hidden />
+              <button class="button" id="chooseVideoBtn" type="button" hidden>选择本地视频</button>
+              <span class="muted" id="selectedVideoName">画面在本机处理</span>
+            </div>
+            <p id="sourceHint" class="muted">摄像头风险事件保存到当前账号；结束监测后可生成报告。</p>
+          </section>
+          <div class="dashboard-grid">
+            <section class="panel camera-panel">
+              <div class="panel-head">
+                <div>
+                  <span class="panel-kicker">CAMERA FEED</span>
+                  <h3>实时摄像头</h3>
+                </div>
+                <span class="status-pill" id="cameraStatus"
+                  ><b></b>模型加载中</span
+                >
+                <span class="status-pill" id="speedChip"
+                  ><b></b>车速 -- km/h</span
+                >
+              </div>
+              <div class="camera-stage" id="cameraStage">
+                <video id="video" autoplay muted playsinline></video>
+                <div class="camera-placeholder" id="cameraPlaceholder">
+                  <div class="camera-icon">◉</div>
+                  <b>等待开启摄像头</b><span>请允许浏览器访问您的摄像头</span>
+                </div>
+                <div id="faceLossBanner" class="face-loss-banner" hidden></div>
+                <div class="scan-line"></div>
+                <div class="corner c1"></div>
+                <div class="corner c2"></div>
+                <div class="corner c3"></div>
+                <div class="corner c4"></div>
+                <div class="face-overlay">
+                  <span>FACE TRACKING</span><i></i>
+                </div>
+                <div class="camera-meta">
+                  <span id="feedLabel">● CAMERA</span><span id="feedDimensions">等待视频输入</span>
+                </div>
+              </div>
+              <div class="camera-controls">
+                <button class="primary-btn" id="cameraBtn" disabled>
+                  模型加载中</button
+                ><button class="icon-btn" id="muteBtn" title="静音提示">
+                  ♩</button
+                ><span class="control-hint"
+                  >视频仅在浏览器本地推理，不上传画面</span
+                >
+              </div>
+              <div class="calibration-controls">
+                <button class="button" id="calibrateBtn" type="button" disabled>个人校准（10 秒）</button>
+                <button class="button primary" id="applyCalibrationBtn" type="button" hidden>应用校准</button>
+                <button class="button" id="cancelCalibrationBtn" type="button" hidden>取消校准</button>
+                <p id="calibrationStatus" aria-live="polite">开启摄像头后，正常睁眼闭嘴、正视镜头即可校准。</p>
+              </div>
+            </section>
+            <section class="panel risk-panel">
+              <div class="panel-head">
+                <div>
+                  <span class="panel-kicker">RISK SCORE</span>
+                  <h3>当前疲劳指数</h3>
+                </div>
+                <span class="risk-tag" id="riskTag">等待监测</span>
+              </div>
+              <div class="score-wrap">
+                <div class="score-ring">
+                  <div><strong id="score">0</strong><small>/ 100</small></div>
+                </div>
+                <div>
+                  <h4 id="riskHeadline">等待实时结果</h4>
+                  <p id="riskExplanation">开启摄像头或选择本地视频开始检测。</p>
+                  <div class="progress">
+                    <i id="scoreBar" style="width: 0"></i>
+                  </div>
+                  <small class="muted">模型：MediaPipe + OpenCV + MobileNetV3 + 因果 TCN</small>
+                </div>
+              </div>
+              <div class="metric-list">
+                <div>
+                  <span>眼睛纵横比</span><b id="ear">-- <em>EAR</em></b
+                  ><small class="good">等待</small>
+                </div>
+                <div>
+                  <span>闭眼持续时长</span
+                  ><b id="closedDuration">0 <em>毫秒</em></b
+                  ><small class="good">等待</small>
+                </div>
+                <div>
+                  <span>持续张嘴时长</span><b id="mouthDuration">0 <em>毫秒</em></b
+                  ><small class="good">持续判断</small>
+                </div>
+                <div>
+                  <span>张嘴分数</span><b id="yawn">--</b
+                  ><small class="good">等待</small>
+                </div>
+                <div><span>近 60 秒闭眼比例</span><b id="closedRatio">--</b><small>有效检测满 10 秒后计算</small></div>
+                <div><span>实时车速</span><b id="speedValue">-- <em>km/h</em></b><small class="good" id="speedSource">定位中</small></div>
+              </div>
+              <div class="risk-evidence" id="riskEvidence" aria-live="polite">等待检测依据</div>
+            </section>
+          </div>
+          <section class="card model-fusion" aria-label="多模型融合状态">
+            <div class="card-header">
+              <div><h2 class="card-title">多模型融合</h2><p class="muted" id="fusionSummary">开启摄像头后运行 OpenCV、MobileNetV3 与因果 TCN。</p></div>
+              <span class="chip" id="fusionChip">等待模型</span>
+            </div>
+            <div class="fusion-grid">
+              <div class="fusion-item" id="fusionOpencv">
+                <div class="fusion-head"><span class="fusion-dot" data-state="loading"></span><b>OpenCV</b><small id="opencvState">加载中</small></div>
+                <p id="opencvDetail">图像质量检测与 CLAHE 预处理</p>
+                <div class="fusion-metrics"><span>亮度 <b id="opencvBrightness">--</b></span><span>清晰度 <b id="opencvSharpness">--</b></span><span>画质 <b id="opencvLevel">--</b></span></div>
+              </div>
+              <div class="fusion-item" id="fusionMobilenet">
+                <div class="fusion-head"><span class="fusion-dot" data-state="loading"></span><b>MobileNetV3</b><small id="mobilenetState">加载中</small></div>
+                <p id="mobilenetDetail">眼部图像睁眼 / 闭眼概率</p>
+                <div class="fusion-metrics"><span>闭眼概率 <b id="mobilenetClosed">--</b></span><span>左眼 <b id="mobilenetLeft">--</b></span><span>右眼 <b id="mobilenetRight">--</b></span></div>
+              </div>
+              <div class="fusion-item" id="fusionTcn">
+                <div class="fusion-head"><span class="fusion-dot" data-state="loading"></span><b>因果 TCN</b><small id="tcnState">加载中</small></div>
+                <p id="tcnDetail">32 帧时序疲劳概率</p>
+                <div class="fusion-metrics"><span>疲劳概率 <b id="tcnFatigue">--</b></span><span>采样 <b id="tcnSamples">0/32</b></span><span>耗时 <b id="tcnLatency">--</b></span></div>
+              </div>
+            </div>
+          </section>
+          <section class="card session-overview">
+            <div class="card-header"><div><h2 class="card-title">本次监测</h2><p class="muted" id="sessionStatus" aria-live="polite">尚未开始监测</p></div><a class="button" href="reports.html">查看历史报告 →</a></div>
+            <div class="session-metrics"><span>监测时长 <b id="sessionElapsed">00:00</b></span><span>本次告警 <b id="sessionEvents">0</b></span><span id="sessionSource">等待输入</span></div>
+            <svg id="liveRiskChart" viewBox="0 0 900 150" role="img" aria-label="本次疲劳风险变化曲线"></svg>
+            <p class="muted chart-caption">显示最近检测结果；断线和无脸时段留空。分数来自规则判断，不代表诊断结论。</p>
+            <div class="session-actions"><a class="button primary" id="lastReportLink" hidden>查看刚生成的报告 →</a><button class="button" id="retryReportBtn" type="button" hidden>重试保存报告</button><button class="button" id="downloadPendingBtn" type="button" hidden>导出未保存报告</button></div>
+          </section>
+          <section class="card session-overview"><div class="card-header"><h2 class="card-title">本次事件时间轴</h2><span class="muted" id="timelineHint">展示触发原因</span></div><div id="sessionTimeline" class="monitor-timeline"><p class="muted">本次暂无告警事件。</p></div></section>
+          <section class="rest-stop-card" id="restStopCard" hidden role="alert" aria-live="polite">
+            <div class="rest-stop-head">
+              <div><span class="panel-kicker">REST STOP · AMAP</span><h3>附近休息点推荐</h3></div>
+              <button class="icon-btn" id="restStopFullscreen" type="button" aria-pressed="false" aria-label="全屏查看休息点">⛶</button><button class="icon-btn" id="restStopClose" type="button" aria-label="关闭休息点推荐">✕</button>
+            </div>
+            <p class="rest-stop-reason" id="restStopReason"></p>
+            <p class="rest-stop-status" id="restStopStatus"></p>
+            <div class="rest-stop-list" id="restStopList"></div>
+            <div class="rest-stop-map" id="restStopMap" hidden></div>
+          </section>
+        </section>
+      </main>
+    </div>
+    <nav class="bottom-nav">
+      <a data-nav href="../index.html"><i>⌂</i><span>工作台</span></a
+      ><a class="active" data-nav href="monitor.html"
+        ><i>◉</i><span>监测</span></a
+      >
+          <a data-nav href="models.html"><i>◇</i><span>模型</span></a><a data-nav href="alerts.html"><i>▤</i><span>事件</span></a
+      ><a data-nav href="reports.html"><i>▧</i><span>报告</span></a><a data-nav href="statistics.html"><i>▥</i><span>统计</span></a
+      ><a data-nav href="ai.html"><i>✦</i><span>AI</span></a><a data-nav href="settings.html"><i>⚙</i><span>设置</span></a>
+    </nav>
+    <script src="js/config.js?v=20261026-1"></script>
+    <script src="js/common.js?v=20261026-1"></script>
+    <script src="js/data.js?v=20261117-2"></script>
+    <script src="js/app-shell.js?v=20261026-1"></script>
+    <script src="js/alarm-controller.js?v=20261117-1"></script>
+    <script src="js/monitor-risk.js?v=20261117-1"></script>
+    <script src="js/face-detector-core.js?v=20261122-1"></script>
+    <script src="js/temporal-risk.js?v=20261117-1"></script>
+    <script src="js/session-recorder.js?v=20261117-1"></script>
+    <script src="js/auth-client.js?v=20261026-1"></script>
+    <script src="js/auth-guard.js?v=20261026-1"></script>
+    <script src="js/monitor-session.js?v=20261026-1"></script>
+    <script src="js/model-runtime.js?v=20261122-1"></script>
+    <script src="js/vision-detector.js?v=20261122-2"></script>
+    <script src="js/opencv-processor.js?v=20261122-1"></script>
+    <script src="js/fatigue-models.js?v=20261122-1"></script>
+    <script src="js/monitor.js?v=20261122-2"></script>
+    <script src="js/monitor-ai.js?v=20261117-1"></script>
+    <script src="js/engineer-mode.js?v=20261117-2"></script>
+    <script src="js/rest-stops.js?v=20261116-2"></script>
+    <script type="module" src="js/face-detector.js?v=20261122-3"></script>
+  </body>
+</html>

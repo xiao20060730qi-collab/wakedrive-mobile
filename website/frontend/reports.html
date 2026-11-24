@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta name="copyright" content="WakeDrive (c) 2026, All Rights Reserved." />
+    <script src="js/guard.js?v=20261124"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <script src="js/prefs.js?v=20261122-1"></script>
+    <title>WakeDrive · 监测报告</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/workbench.css?v=20261117-2" />
+    <link rel="stylesheet" href="css/reports.css?v=20261026-1" />
+      <link rel="stylesheet" href="css/theme.css?v=20261122-1" />
+      <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=20261122" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=20261122" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="index.html"><div class="brand-mark">W</div><div><strong>WakeDrive<span>·AI</span></strong><small>驾驶安全智能平台</small></div></a>
+        <div class="side-label">工作台</div>
+        <nav class="side-nav" aria-label="工作台导航">
+          <a data-nav href="index.html"><i>⌂</i>工作台</a>
+          <a data-nav href="monitor.html"><i>◉</i>实时监测</a>
+          <a data-nav href="models.html"><i>◇</i>模型清单</a>
+          <a data-nav href="alerts.html"><i>▤</i>事件记录</a>
+          <a class="active" data-nav href="reports.html" aria-current="page"><i>▧</i>监测报告</a>
+          <a data-nav href="statistics.html"><i>▥</i>统计分析</a>
+          <a data-nav href="settings.html"><i>⚙</i>系统设置</a>
+          <a data-nav href="ai.html"><i>✦</i>AI 分析</a>
+        </nav>
+        <div class="sidebar-foot"><div class="secure-dot"></div><div><b>账号数据保护</b><span>监测报告仅当前账号可见</span></div></div>
+      </aside>
+      <main class="main">
+        <header class="topbar">
+          <div><p class="eyebrow">MONITORING REPORTS</p><h1>监测报告</h1></div>
+          <div class="top-actions"><span class="chip" data-data-source>正在连接账号数据</span><span class="clock" data-live-clock>--:--:--</span><a class="avatar" href="settings.html" aria-label="账号设置">S</a></div>
+        </header>
+        <section class="content reports-content">
+          <div class="page-header report-page-header">
+            <div><p class="page-kicker">SESSION REVIEW</p><h2 class="page-title">每一次监测，都有据可查</h2><p class="page-subtitle">复盘有效覆盖、风险变化与识别事件。视频演示与摄像头监测分开记录。</p></div>
+            <div class="toolbar"><a class="button" href="monitor.html">开始监测 ↗</a></div>
+          </div>
+          <section class="card report-history" id="reportHistory" aria-labelledby="historyHeading">
+            <div class="card-header report-history-header"><h2 class="card-title" id="historyHeading">历史报告</h2><div class="report-filters" role="group" aria-label="报告来源筛选"><button type="button" class="button primary" data-report-source="" aria-pressed="true">全部</button><button type="button" class="button" data-report-source="camera" aria-pressed="false">摄像头监测</button><button type="button" class="button" data-report-source="video" aria-pressed="false">视频演示</button></div></div>
+            <div class="empty-state" id="historyState" role="status" aria-live="polite">正在读取当前账号的报告…</div>
+            <div class="report-retry"><button type="button" class="button" id="retryHistory" hidden>重新加载历史</button></div>
+            <div class="table-wrap" id="historyTable" hidden><table><caption class="sr-only">当前账号的监测报告，点击标题查看详情</caption><thead><tr><th scope="col">报告</th><th scope="col">来源</th><th scope="col">开始时间 · 北京时间</th><th scope="col">总时长</th><th scope="col">最高风险</th></tr></thead><tbody id="historyRows"></tbody></table></div>
+            <div class="report-pagination"><span id="pagePosition" aria-live="polite">0 份报告</span><div><button type="button" class="button" id="previousPage" disabled>上一页</button><button type="button" class="button" id="nextPage" disabled>下一页</button></div></div>
+          </section>
+          <div class="card report-detail-state" id="detailState"><p id="detailStatus" role="status" aria-live="polite">从历史列表选择一份报告。</p><button type="button" class="button" id="retryDetail" hidden>重试读取报告</button></div>
+          <article id="reportDetail" class="report-detail" aria-labelledby="reportTitle" hidden>
+            <header class="report-detail-header">
+              <div><span class="chip source-badge" id="reportSource"></span><h2 id="reportTitle"></h2><p id="reportPeriod" class="muted"></p></div>
+              <div class="toolbar report-export" aria-label="导出当前报告"><button type="button" class="button" id="exportJSON" disabled>导出 JSON</button><button type="button" class="button" id="exportCSV" disabled>导出 CSV</button><button type="button" class="button primary" id="printReport" disabled>打印 / 保存 PDF</button></div>
+            </header>
+            <div class="grid four report-metrics">
+              <section class="card metric-card"><div class="metric-top"><span>监测总时长</span><i aria-hidden="true">◷</i></div><div class="metric-value" id="metricDuration">--</div><div class="metric-label">从开始到结束的经过时间</div></section>
+              <section class="card metric-card"><div class="metric-top"><span>有效覆盖率</span><i aria-hidden="true">◉</i></div><div class="metric-value cyan-text" id="metricCoverage">--</div><div class="metric-label" id="metricValid">有效 -- · 未知 --</div></section>
+              <section class="card metric-card"><div class="metric-top"><span>最高风险分数</span><i aria-hidden="true">△</i></div><div class="metric-value" id="metricPeak">--</div><div class="metric-label">仅根据有效检测区间计算 · 0–100</div></section>
+              <section class="card metric-card"><div class="metric-top"><span>本次识别事件</span><i aria-hidden="true">▤</i></div><div class="metric-value" id="metricEvents">--</div><div class="metric-label" id="eventCounts">轻度 0 · 中度 0 · 重度 0</div></section>
+            </div>
+            <p class="report-unknown-note" id="unknownDuration"></p>
+            <section class="card report-curve-card" aria-labelledby="curveHeading"><div class="card-header"><div><h3 class="card-title" id="curveHeading">风险随时间变化</h3><p class="muted">相邻时间桶保留最高风险；灰色为未知，虚线表示桶内含未知时间。</p></div><span class="chip">分数 0–100</span></div><svg id="riskCurve" viewBox="0 0 900 240" role="img" aria-labelledby="curveTitle curveDescription" preserveAspectRatio="xMidYMid meet"><title id="curveTitle">本次监测风险曲线</title><desc id="curveDescription">风险随经过时间变化；未知区间显示为灰色。</desc></svg><p class="empty-state" id="curveEmpty" hidden>本次没有有效检测指标，无法绘制已知风险曲线。</p><div class="curve-legend"><span><i class="legend-risk"></i>已知最高风险</span><span><i class="legend-unknown"></i>未知 / 部分未知时间</span><span>横轴：监测经过时间</span></div></section>
+            <section class="card report-timeline" aria-labelledby="timelineHeading"><div class="card-header"><h3 class="card-title" id="timelineHeading">事件时间轴</h3><span class="muted" id="typeCounts"></span></div><p class="empty-state" id="eventsEmpty" hidden>本次未记录闭眼、打哈欠或分心告警事件。</p><div class="table-wrap" id="eventsTable"><table><caption class="sr-only">事件相对开始时间、类型、等级、原因和识别指标</caption><thead><tr><th scope="col">相对时间</th><th scope="col">类型</th><th scope="col">等级</th><th scope="col">原因</th><th scope="col">EAR</th><th scope="col">MAR</th><th scope="col">连续闭眼</th><th scope="col">持续张嘴</th></tr></thead><tbody id="eventRows"></tbody></table></div></section>
+            <section class="card report-settings-card" aria-labelledby="settingsHeading"><div class="card-header"><h3 class="card-title" id="settingsHeading">本次使用的识别参数</h3></div><dl class="report-settings" id="reportSettings"></dl></section>
+            <p class="report-disclaimer">报告记录算法识别指标与事件，未知时段不代表正常；结果仅用于监测复盘，不构成医学诊断或驾驶安全保证。请结合实际状态安排休息。</p>
+          </article>
+          <noscript><p class="error-state">请启用 JavaScript 以读取账号报告。</p></noscript>
+        </section>
+      </main>
+    </div>
+    <nav class="bottom-nav" aria-label="移动导航"><a data-nav href="index.html"><i>⌂</i><span>工作台</span></a><a data-nav href="monitor.html"><i>◉</i><span>监测</span></a><a data-nav href="models.html"><i>◇</i><span>模型</span></a><a data-nav href="alerts.html"><i>▤</i><span>事件</span></a><a class="active" data-nav href="reports.html" aria-current="page"><i>▧</i><span>报告</span></a><a data-nav href="statistics.html"><i>▥</i><span>统计</span></a><a data-nav href="ai.html"><i>✦</i><span>AI</span></a><a data-nav href="settings.html"><i>⚙</i><span>设置</span></a></nav>
+    <script src="js/config.js"></script>
+    <script src="js/common.js?v=20261026-1"></script>
+    <script src="js/data.js?v=20261117-2"></script>
+    <script src="js/auth-client.js?v=20261026-1"></script>
+    <script src="js/auth-guard.js?v=20261026-1"></script>
+    <script src="js/app-shell.js?v=20261026-1"></script>
+    <script src="js/reports.js?v=20261117-1"></script>
+  </body>
+</html>

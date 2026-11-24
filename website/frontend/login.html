@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta name="copyright" content="WakeDrive (c) 2026, All Rights Reserved." />
+    <script src="js/guard.js?v=20261124"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <script src="js/prefs.js?v=20261122-1"></script>
+  <title>登录 · WakeDrive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/auth.css?v=20261122-3">
+    <link rel="stylesheet" href="css/theme.css?v=20261122-1" />
+      <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=20261122" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=20261122" />
+  </head>
+<body>
+  <canvas class="auth-particles" aria-hidden="true"></canvas>
+  <main class="auth-layout">
+    <section class="auth-identity" aria-label="WakeDrive">
+      <a class="auth-brand" href="index.html">
+        <span class="auth-brand-mark">W</span>
+        <span><strong>WakeDrive<em>·AI</em></strong><small>驾驶安全智能平台</small></span>
+      </a>
+      <div class="auth-visual" aria-hidden="true">
+        <div class="auth-reticle"><i></i><i></i><i></i><i></i><span>DRIVER STATUS</span></div>
+        <div class="auth-signal"><b></b><span>安全监测通道</span><strong>READY</strong></div>
+      </div>
+      <div class="auth-identity-copy">
+        <h1>保持清醒，安全抵达</h1>
+        <p>实时驾驶状态监测工作台</p>
+      </div>
+    </section>
+
+    <section class="auth-form-region">
+      <div class="auth-form-wrap">
+        <a class="auth-back" href="index.html">返回工作台</a>
+        <div class="auth-heading">
+          <h2>登录 WakeDrive</h2>
+          <p>使用已注册的驾驶账号登录</p>
+        </div>
+        <form id="loginForm" novalidate>
+          <div class="auth-field">
+            <label for="username">用户名</label>
+            <input id="username" name="username" autocomplete="username" maxlength="24" autofocus>
+            <small class="field-error" id="usernameError"></small>
+          </div>
+          <div class="auth-field">
+            <label for="password">密码</label>
+            <div class="password-control">
+              <input id="password" name="password" type="password" autocomplete="current-password" maxlength="128">
+              <button type="button" data-password-toggle="password" aria-label="显示密码" aria-pressed="false" title="显示密码"></button>
+            </div>
+            <small class="field-error" id="passwordError"></small>
+          </div>
+          <label class="remember-control" for="remember">
+            <input id="remember" name="remember" type="checkbox">
+            <span>记住登录状态</span>
+          </label>
+          <div class="form-error" id="formError" role="alert" aria-live="polite"></div>
+          <button class="auth-submit" id="submitBtn" type="submit">登录</button>
+        </form>
+        <p class="auth-switch">还没有账号？<a href="register.html">立即注册</a></p>
+        <a class="auth-admin-submit" href="admin-login.html">管理员登录</a>
+      </div>
+    </section>
+  </main>
+  <script src="js/config.js"></script>
+  <script src="js/auth-client.js?v=20261019-admin1"></script>
+  <script src="js/login.js?v=20261019-admin1"></script>
+  <script src="js/auth-particles.js"></script>
+</body>
+</html>

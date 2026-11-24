@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta name="copyright" content="WakeDrive (c) 2026, All Rights Reserved." />
+    <script src="js/guard.js?v=20261124"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <script src="js/prefs.js?v=20261122-1"></script>
+    <title>下载与安装 · WakeDrive</title>
+    <meta name="description" content="下载 WakeDrive 驾驶安全监测端：Android、iOS 与网页工作台，包含版本说明、安装步骤与更新日志。" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css?v=20261122-3" />
+    <link rel="stylesheet" href="css/workbench.css?v=20261117-2" />
+    <link rel="stylesheet" href="css/download.css?v=20261122-3" />
+      <link rel="stylesheet" href="css/theme.css?v=20261122-1" />
+      <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=20261122" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=20261122" />
+  </head>
+  <body class="dl-page">
+    <header class="dl-top">
+      <a class="brand" href="index.html"
+        ><div class="brand-mark">W</div>
+        <div>
+          <strong>WakeDrive<span>·AI</span></strong
+          ><small>驾驶安全智能平台</small>
+        </div></a
+      >
+      <nav class="dl-top-actions" aria-label="页面导航">
+        <a class="button" href="index.html">← 返回工作台</a>
+        <a class="button primary" href="register.html">注册驾驶账号</a>
+      </nav>
+    </header>
+
+    <main class="dl-main">
+      <section class="dl-hero">
+        <p class="eyebrow">DOWNLOAD &amp; INSTALL</p>
+        <h1>把清醒，带上路。</h1>
+        <p class="dl-sub">
+          车上用手机，回到工作台复盘。网页端、Android 与 iOS 共用同一套风险规则与账号数据。
+        </p>
+        <div class="dl-meta" aria-live="polite">
+          <span>当前版本 <b id="dlVersion">1.1</b></span>
+          <span>更新于 <b id="dlUpdated">2026-11-22</b></span>
+          <span class="chip safe"><span class="status-dot"></span>Android 直链下载</span>
+        </div>
+      </section>
+
+      <section class="dl-grid" aria-label="客户端下载">
+        <article class="dl-card">
+          <div class="dl-card-head">
+            <span class="device-tag">WEB · PWA</span>
+            <span class="dl-badge">推荐</span>
+          </div>
+          <h2>驾驶工作台</h2>
+          <p class="dl-desc" data-note="web">无需安装，浏览器打开即用。</p>
+          <dl class="dl-facts">
+            <div><dt>形态</dt><dd>浏览器 / PWA</dd></div>
+            <div><dt>版本</dt><dd data-field="web.version">与网站同步</dd></div>
+            <div><dt>数据</dt><dd>账号隔离存储</dd></div>
+          </dl>
+          <div class="dl-actions">
+            <a class="button primary" href="index.html">打开工作台 ↗</a>
+            <button class="button" type="button" data-copy-link>复制页面链接</button>
+          </div>
+          <div class="dl-qr" data-qr="web" aria-label="工作台二维码"></div>
+          <small class="dl-qr-note">扫码在手机上打开工作台</small>
+        </article>
+
+        <article class="dl-card" id="android">
+          <div class="dl-card-head">
+            <span class="device-tag">ANDROID</span>
+            <span class="dl-badge">端侧推理</span>
+          </div>
+          <img class="dl-app-icon" src="/assets/app-icon.png" alt="WakeDrive Android 图标" width="56" height="56" />
+          <h2>随身监测端</h2>
+          <p class="dl-desc" data-note="android">CameraX 采集，端侧四模型推理。</p>
+          <dl class="dl-facts">
+            <div><dt>版本</dt><dd data-field="android.version">1.1</dd></div>
+            <div><dt>安装包</dt><dd data-field="android.size">242 MB</dd></div>
+            <div><dt>系统</dt><dd data-field="android.minOS">Android 8.0+</dd></div>
+          </dl>
+          <div class="dl-actions">
+            <a class="button primary" data-download="android" href="#android-steps">查看安装步骤</a>
+            <button class="button" type="button" data-copy-link>复制本页链接</button>
+          </div>
+          <div class="dl-qr" data-qr="android" aria-label="Android 下载二维码"></div>
+          <small class="dl-qr-note" data-qr-note="android">扫码在手机上打开本页</small>
+        </article>
+
+        <article class="dl-card" id="ios">
+          <div class="dl-card-head">
+            <span class="device-tag">IPHONE</span>
+            <span class="dl-badge">签名分发</span>
+          </div>
+          <h2>iPhone 监测端</h2>
+          <p class="dl-desc" data-note="ios">SwiftUI 构建，与网页端功能对齐。</p>
+          <dl class="dl-facts">
+            <div><dt>版本</dt><dd data-field="ios.version">1.0</dd></div>
+            <div><dt>安装包</dt><dd data-field="ios.size">98 MB</dd></div>
+            <div><dt>系统</dt><dd data-field="ios.minOS">iOS 16.0+</dd></div>
+          </dl>
+          <div class="dl-actions">
+            <a class="button primary" data-download="ios" href="#ios-steps">查看安装步骤</a>
+            <button class="button" type="button" data-copy-link>复制本页链接</button>
+          </div>
+          <div class="dl-qr" data-qr="ios" aria-label="iOS 安装二维码"></div>
+          <small class="dl-qr-note" data-qr-note="ios">扫码在手机上打开本页</small>
+        </article>
+      </section>
+
+      <section class="dl-section" id="install">
+        <div class="dl-section-head">
+          <p class="eyebrow">INSTALL GUIDE</p>
+          <h2>三步装好，马上开始。</h2>
+        </div>
+        <div class="dl-guides">
+          <article class="dl-guide" id="android-steps">
+            <h3><span>01</span> Android</h3>
+            <ol>
+              <li>向管理员获取适配机型的安装包，或使用上方配置好的直链下载。</li>
+              <li>在系统提示中允许浏览器“安装未知应用”，完成 APK 安装。</li>
+              <li>打开应用，授予相机与定位权限，登录驾驶账号后开始监测。</li>
+            </ol>
+            <p class="dl-tip">建议将应用固定到桌面，并在监测时连接电源。</p>
+          </article>
+          <article class="dl-guide" id="ios-steps">
+            <h3><span>02</span> iPhone</h3>
+            <ol>
+              <li>联系管理员获取已签名的安装包或 TestFlight 邀请链接。</li>
+              <li>使用 Safari 打开安装链接，按提示完成安装。</li>
+              <li>如为企业签名，请在“设置 → 通用 → VPN 与设备管理”中信任证书后再打开。</li>
+            </ol>
+            <p class="dl-tip">iOS 端需要保持屏幕常亮，并在监测时允许麦克风与相机权限。</p>
+          </article>
+          <article class="dl-guide" id="web-steps">
+            <h3><span>03</span> Web / PWA</h3>
+            <ol>
+              <li>使用手机浏览器打开驾驶工作台并登录。</li>
+              <li>在浏览器菜单中选择“添加到主屏幕”，即可像 App 一样启动。</li>
+              <li>监测时保持页面在前台，并允许声音播放。</li>
+            </ol>
+            <p class="dl-tip">电脑端建议使用 Chrome / Edge 最新版本，并允许摄像头权限。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="dl-section" id="changelog">
+        <div class="dl-section-head">
+          <p class="eyebrow">CHANGELOG</p>
+          <h2>更新日志</h2>
+        </div>
+        <div class="dl-changelog" id="dlChangelog" aria-live="polite">
+          <article>
+            <header><span>1.3.0</span><time>2026-11-18</time></header>
+            <ul>
+              <li>新增附近休息点推荐，中度与重度疲劳自动查找服务区</li>
+              <li>升级视觉模型与监测链路</li>
+              <li>新增管理员控制台与风险总览</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="dl-note">
+        <strong>Android 安装包已开放直链下载。</strong> iOS 为未签名 IPA，仍需管理员签名或通过 TestFlight 分发；如需帮助，请联系系统管理员。
+      </section>
+    </main>
+
+    <footer class="dl-footer">
+      <span>© 2026 WakeDrive. 保留所有权利。</span>
+      <span><a href="index.html">驾驶工作台</a> · <a href="admin-login.html">管理员登录</a> · <a href="register.html">注册账号</a></span>
+    </footer>
+
+    <script src="js/vendor/qrcode.js?v=20261122-1"></script>
+    <script src="js/download.js?v=20261122-1"></script>
+  </body>
+</html>

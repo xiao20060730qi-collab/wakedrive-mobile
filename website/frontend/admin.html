@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta name="copyright" content="WakeDrive (c) 2026, All Rights Reserved." />
+    <script src="js/guard.js?v=20261124"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>账户总览 · WakeDrive 管理控制台</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/admin.css?v=20261122-1">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=20261122" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=20261122" />
+  </head>
+<body class="admin-page">
+  <a class="admin-skip" href="#adminMain">跳到账户总览</a>
+  <div class="admin-shell">
+    <aside class="admin-sidebar" aria-label="管理导航">
+      <a class="auth-brand admin-brand" href="admin.html"><span class="auth-brand-mark">W</span><span><strong>WakeDrive<em>·AI</em></strong><small>驾驶安全智能平台</small></span></a>
+      <p class="admin-nav-label">管理控制台</p>
+      <nav class="admin-nav"><a href="admin.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>账户总览</a></nav>
+      <div class="admin-sidebar-note"><span class="admin-shield" aria-hidden="true">◇</span><div><strong>管理员访问</strong><p>集中查看账户监测与疲劳事件</p></div></div>
+      <a class="admin-back-link" href="login.html">← 返回用户登录</a>
+    </aside>
+    <div class="admin-workspace">
+      <header class="admin-topbar">
+        <a class="admin-mobile-brand" href="admin.html"><span class="auth-brand-mark">W</span><strong>WakeDrive<span>·AI</span></strong></a>
+        <div class="admin-breadcrumb">管理控制台 <span aria-hidden="true">/</span> <strong>账户总览</strong></div>
+        <div class="admin-top-actions"><span class="admin-session"><span class="admin-session-avatar" aria-hidden="true">A</span><span id="adminAccountName">验证登录中…</span></span><button class="admin-button admin-logout" id="adminLogout" type="button" disabled>退出登录</button></div>
+      </header>
+      <main class="admin-content" id="adminMain" tabindex="-1">
+        <div class="admin-heading">
+          <div><h1>驾驶账户总览</h1><p>了解各账户最新监测状态，及时关注疲劳风险。</p></div>
+          <button class="admin-button admin-button-primary" id="adminRefresh" type="button" disabled><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16 7a6.5 6.5 0 1 0 .3 5M16 3v4h-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>刷新数据</span></button>
+        </div>
+        <div class="admin-error" id="adminPageError" role="alert" hidden><span id="adminPageErrorText"></span><button class="admin-text-button" id="adminRetry" type="button">重试</button></div>
+        <p class="admin-notice" id="adminNotice" role="status" hidden></p>
+        <section class="admin-metrics" aria-label="账户统计">
+          <article class="admin-metric"><div class="admin-metric-top"><h2>注册账户</h2><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2M16 4a3 3 0 0 1 0 6m2 4a5 5 0 0 1 3 4v2"/></svg></div><strong id="totalUsers">—</strong><p>已注册的驾驶账户总数</p></article>
+          <article class="admin-metric metric-online"><div class="admin-metric-top"><h2>在线监测</h2><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg></div><strong id="onlineUsers">—</strong><p>最近 2 分钟内有状态上报</p></article>
+          <article class="admin-metric metric-risk"><div class="admin-metric-top"><h2>高风险账户</h2><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m12 3 10 17H2L12 3Z" stroke-linejoin="round"/><path d="M12 9v4m0 3v.5" stroke-linecap="round"/></svg></div><strong id="highRiskUsers">—</strong><p>当前在线且处于重度疲劳</p></article>
+          <article class="admin-metric metric-events"><div class="admin-metric-top"><h2>今日疲劳事件</h2><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M8 3v4m8-4v4M4 11h16m-11 4h6" stroke-linecap="round"/></svg></div><strong id="todayEvents">—</strong><p>今日记录的疲劳事件总数</p></article>
+        </section>
+
+        <section class="admin-fleet-panel" id="adminFleet" aria-labelledby="adminFleetTitle">
+          <div class="admin-panel-heading">
+            <div><h2 id="adminFleetTitle">车队风险总览</h2><p>在线风险、待处理告警与处理率集中呈现</p></div>
+            <span class="admin-sync" id="adminFleetState" role="status">正在汇总车队数据…</span>
+          </div>
+          <div class="admin-fleet-kpis">
+            <div class="admin-fleet-kpi"><span>在线率</span><b id="fleetOnlineRate">—</b><small id="fleetOnlineNote">在线 / 全部账户</small></div>
+            <div class="admin-fleet-kpi"><span>待处理告警</span><b id="fleetPending">—</b><small>全部账户累计</small></div>
+            <div class="admin-fleet-kpi"><span>整体处理率</span><b id="fleetHandledRate">—</b><small>已处理 / 全部事件</small></div>
+            <div class="admin-fleet-kpi"><span>需关注账户</span><b id="fleetAttention">—</b><small>重度疲劳或告警积压</small></div>
+          </div>
+          <div class="admin-fleet-grid">
+            <div class="admin-fleet-block">
+              <h3>风险排行 <span>按最新状态与评分排序</span></h3>
+              <ol id="fleetRanking" class="admin-fleet-list"></ol>
+            </div>
+            <div class="admin-fleet-block">
+              <h3>处理率关注 <span>优先补齐积压告警</span></h3>
+              <ul id="fleetHandledList" class="admin-fleet-list"></ul>
+            </div>
+          </div>
+        </section>
+        <section class="admin-users-panel" aria-labelledby="adminUsersTitle">
+          <div class="admin-panel-heading"><div><h2 id="adminUsersTitle" tabindex="-1">账户监测列表</h2><p>优先展示需要关注的账户</p></div><span class="admin-sync" id="adminSync" role="status">正在验证管理员身份…</span></div>
+          <form class="admin-filters" id="adminFilterForm" role="search">
+            <div class="admin-search-field"><label class="admin-visually-hidden" for="adminSearch">搜索用户名</label><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4 4"/></svg><input id="adminSearch" name="search" type="search" placeholder="搜索用户名" maxlength="100" autocomplete="off"><button class="admin-button" type="submit">搜索</button></div>
+            <div class="admin-severity-field"><label for="adminSeverity">状态筛选</label><select id="adminSeverity" name="severity"><option value="">全部状态</option><option value="high">重度疲劳</option><option value="medium">中度疲劳</option><option value="light">轻度疲劳</option><option value="normal">清醒</option><option value="unknown">未检测到人脸</option><option value="offline">离线</option><option value="unmonitored">未监测</option></select></div>
+            <label class="admin-auto-refresh" for="adminAutoRefresh"><input id="adminAutoRefresh" type="checkbox" checked><span>每 15 秒自动刷新</span></label>
+          </form>
+          <div class="admin-table-scroll" tabindex="0" role="region" aria-label="账户列表，可横向滚动" id="adminTableRegion" aria-busy="true">
+            <table class="admin-table"><caption class="admin-visually-hidden">驾驶账户的最新监测状态与疲劳事件统计</caption><thead><tr><th scope="col">账户</th><th scope="col">监测状态</th><th scope="col">最新疲劳状态</th><th scope="col">疲劳评分</th><th scope="col">今日事件</th><th scope="col">累计重度</th><th scope="col">处理率</th><th scope="col">最近上报</th><th scope="col"><span class="admin-visually-hidden">操作</span></th></tr></thead><tbody id="adminUserRows"><tr><td colspan="9"><div class="admin-table-state"><span class="admin-loading-dot" aria-hidden="true"></span><strong>正在验证登录状态</strong><p>即将载入账户监测数据</p></div></td></tr></tbody></table>
+          </div>
+          <div class="admin-table-footer"><p id="adminResultCount" role="status">—</p><div class="admin-pagination"><button class="admin-button" id="adminPrevious" type="button" disabled>上一页</button><span id="adminPageNumber">第 1 页</span><button class="admin-button" id="adminNext" type="button" disabled>下一页</button></div></div>
+        </section>
+        <p class="admin-status-note"><span aria-hidden="true">ⓘ</span> 超过 2 分钟未上报显示为离线；离线账户保留最近一次疲劳状态供参考。</p>
+        <section class="admin-users-panel admin-admin-panel" id="adminAdminPanel" aria-labelledby="adminAdminsTitle" hidden>
+          <div class="admin-panel-heading"><div><h2 id="adminAdminsTitle">管理员账号</h2><p>新增管理员、重置密码或删除管理员；当前登录账号不可删除，系统始终保留至少一个管理员。</p></div><span class="admin-sync" id="adminAdminsState" role="status">正在验证管理员身份…</span></div>
+          <form class="admin-filters" id="adminCreateForm" autocomplete="off">
+            <div class="admin-search-field"><label class="admin-visually-hidden" for="adminNewUsername">新管理员用户名</label><input id="adminNewUsername" name="username" type="text" placeholder="新管理员用户名（3-24 位）" minlength="3" maxlength="24" autocomplete="off" required></div>
+            <div class="admin-search-field"><label class="admin-visually-hidden" for="adminNewPassword">初始密码</label><input id="adminNewPassword" name="password" type="password" placeholder="初始密码（至少 8 位）" minlength="8" maxlength="128" autocomplete="new-password" required></div>
+            <button class="admin-button admin-button-primary" type="submit">新增管理员</button>
+          </form>
+          <div class="admin-error" id="adminAdminError" role="alert" hidden><span id="adminAdminErrorText"></span></div>
+          <div class="admin-table-scroll" role="region" aria-label="管理员账号列表">
+            <table class="admin-table"><caption class="admin-visually-hidden">管理员账号列表</caption><thead><tr><th scope="col">管理员</th><th scope="col">创建时间</th><th scope="col"><span class="admin-visually-hidden">操作</span></th></tr></thead><tbody id="adminAdminRows"><tr><td colspan="3"><div class="admin-table-state"><span class="admin-loading-dot" aria-hidden="true"></span><strong>正在载入管理员…</strong></div></td></tr></tbody></table>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+  <dialog class="admin-detail" id="adminDetail" aria-labelledby="adminDetailTitle">
+    <div class="admin-detail-head"><div><p>账户详情</p><h2 id="adminDetailTitle">疲劳事件记录</h2></div><button class="admin-button admin-close" id="adminDetailClose" type="button" aria-label="关闭账户详情">×</button></div>
+    <div class="admin-detail-meta" id="adminDetailMeta"></div>
+    <div class="admin-detail-summary" id="adminDetailSummary" aria-label="事件统计"></div>
+    <div class="admin-detail-section-head"><h3>最近疲劳事件</h3><button class="admin-text-button" id="adminDetailRefresh" type="button">刷新记录</button></div>
+    <div id="adminDetailEvents" aria-live="polite"></div>
+  </dialog>
+  <dialog class="admin-detail admin-delete-dialog" id="adminDelete" aria-labelledby="adminDeleteTitle" aria-describedby="adminDeleteDescription">
+    <div class="admin-detail-head"><div><p>账户管理</p><h2 id="adminDeleteTitle">删除账号？</h2></div></div>
+    <p class="admin-delete-description" id="adminDeleteDescription">确定删除账号“<strong id="adminDeleteUsername"></strong>”吗？该账号的疲劳事件、监测状态和个人设置将一并删除，当前登录会话也会失效。此操作无法恢复。</p>
+    <p class="admin-delete-error" id="adminDeleteError" role="alert" hidden></p>
+    <div class="admin-delete-buttons"><button class="admin-button" id="adminDeleteCancel" type="button" autofocus>取消</button><button class="admin-button admin-button-danger" id="adminDeleteConfirm" type="button">确认删除</button></div>
+  </dialog>
+  <dialog class="admin-detail" id="adminPasswordDialog" aria-labelledby="adminPasswordTitle">
+    <div class="admin-detail-head"><div><p>管理员账号</p><h2 id="adminPasswordTitle">重置密码</h2></div><button class="admin-button admin-close" id="adminPasswordClose" type="button" aria-label="关闭密码重置">×</button></div>
+    <p class="admin-delete-description">为管理员“<strong id="adminPasswordUsername"></strong>”设置新密码，保存后该账号现有登录会话将失效。</p>
+    <input class="admin-password-input" id="adminPasswordInput" type="password" minlength="8" maxlength="128" autocomplete="new-password" placeholder="新密码（至少 8 位）">
+    <p class="admin-delete-error" id="adminPasswordError" role="alert" hidden></p>
+    <div class="admin-delete-buttons"><button class="admin-button" id="adminPasswordCancel" type="button">取消</button><button class="admin-button admin-button-primary" id="adminPasswordConfirm" type="button">保存新密码</button></div>
+  </dialog>
+  <dialog class="admin-detail admin-delete-dialog" id="adminAdminDelete" aria-labelledby="adminAdminDeleteTitle" aria-describedby="adminAdminDeleteDescription">
+    <div class="admin-detail-head"><div><p>管理员账号</p><h2 id="adminAdminDeleteTitle">删除管理员？</h2></div></div>
+    <p class="admin-delete-description" id="adminAdminDeleteDescription">确定删除管理员“<strong id="adminAdminDeleteUsername"></strong>”吗？删除后该账号将失去管理后台访问权限，操作无法恢复。</p>
+    <p class="admin-delete-error" id="adminAdminDeleteError" role="alert" hidden></p>
+    <div class="admin-delete-buttons"><button class="admin-button" id="adminAdminDeleteCancel" type="button" autofocus>取消</button><button class="admin-button admin-button-danger" id="adminAdminDeleteConfirm" type="button">确认删除</button></div>
+  </dialog>
+  <script src="js/config.js?v=20261019-admin1"></script>
+  <script src="js/admin-client.js?v=20261117-1"></script>
+  <script src="js/admin.js?v=20261122-1"></script>
+  <script src="js/admin-fleet.js?v=20261122-1"></script>
+</body>
+</html>

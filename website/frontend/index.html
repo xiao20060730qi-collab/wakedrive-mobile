@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta name="copyright" content="WakeDrive (c) 2026, All Rights Reserved." />
+    <script src="js/guard.js?v=20261124"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="js/prefs.js?v=20261122-1"></script>
+  <title>WakeDrive · 驾驶工作台</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=20261122-3"><link rel="stylesheet" href="css/workbench.css?v=20261117-2">
+    <link rel="stylesheet" href="css/theme.css?v=20261122-1" />
+      <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=20261122" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=20261122" />
+  </head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="index.html"><div class="brand-mark">W</div><div><strong>WakeDrive<span>·AI</span></strong><small>驾驶安全智能平台</small></div></a>
+      <div class="side-label">工作台</div>
+      <nav class="side-nav">
+        <a class="active" data-nav href="index.html"><i>⌂</i>工作台</a>
+        <a data-nav href="monitor.html"><i>◉</i>实时监测</a>
+          <a data-nav href="models.html"><i>◇</i>模型清单</a>
+        <a data-nav href="alerts.html"><i>▤</i>事件记录</a>
+        <a data-nav href="reports.html"><i>▧</i>监测报告</a><a data-nav href="statistics.html"><i>▥</i>统计分析</a>
+        <a data-nav href="settings.html"><i>⚙</i>系统设置</a>
+        <a data-nav href="ai.html"><i>✦</i>AI 分析</a>
+      </nav>
+      <div class="sidebar-foot"><div class="secure-dot"></div><div><b>账号数据保护</b><span>监测记录保存至当前账号</span></div></div>
+    </aside>
+    <main class="main">
+      <header class="topbar"><div><p class="eyebrow">驾驶安全工作台</p><h1>驾驶工作台</h1></div><div class="top-actions"><span class="chip safe"><span class="status-dot"></span>系统运行中</span><span class="chip" data-data-source>正在连接账号数据</span><span class="clock" data-live-clock>--:--:--</span><a class="avatar" href="login.html" aria-label="登录账号">S</a></div></header>
+      <section class="content">
+        <div class="page-header"><div><p class="page-kicker">CURRENT STATUS · READY</p><h2 class="page-title">专注每一次出发</h2><p class="page-subtitle">实时掌握驾驶员、车辆和疲劳风险，让每一次提醒都有依据。</p></div><div class="toolbar"><a class="button primary" href="monitor.html">▶ 开始实时监测</a><a class="button" href="alerts.html">▤ 处理事件</a></div></div>
+        <section class="grid three" id="dashboardMetrics"><article class="card metric-card"><div class="metric-top"><span>今日疲劳事件</span><i>▤</i></div><div class="metric-value" id="dashboardTotal">--</div><div class="metric-label">当前账号今日记录</div></article><article class="card metric-card"><div class="metric-top"><span>待处理告警</span><i>!</i></div><div class="metric-value" id="pendingAlerts" style="color:var(--yellow)">--</div><div class="metric-label">当前账号全部待处理事件</div></article><article class="card metric-card"><div class="metric-top"><span>今日重度疲劳</span><i>!</i></div><div class="metric-value" id="dashboardHeavy">--</div><div class="metric-label">当前账号今日重度事件</div></article></section>
+        <section class="card engineer-demo" style="margin-top:16px"><div class="card-header"><h2 class="card-title">⚙ 工程模拟演示</h2><span class="chip">无需摄像头 · 演示用</span></div><p class="muted engineer-demo-hint">一键进入模拟监测并自动触发演示事件；模拟事件会保存到当前账号，消息带「工程模式模拟」标记，便于演示和复核。</p><div class="engineer-launch"><a class="button" href="monitor.html?engineer=1&amp;sim=start">模拟开启监测</a><a class="button" href="monitor.html?engineer=1&amp;sim=fatigue">重度疲劳演示</a><a class="button" href="monitor.html?engineer=1&amp;sim=phone">手机分心演示</a><a class="button" href="monitor.html?engineer=1&amp;sim=lost">无人脸弹窗演示</a></div></section>
+        <section class="monitor-hero" style="margin-top:16px"><div class="grid"><section class="card hero-monitor"><div class="camera-stage" style="margin:0;height:330px"><div class="camera-placeholder"><div class="camera-icon">◉</div><b>实时画面待开启</b><span>进入实时监测页后开启摄像头</span></div><div class="corner c1"></div><div class="corner c2"></div><div class="corner c3"></div><div class="corner c4"></div><div class="camera-meta"><span>● READY</span><span>720p · 30 FPS</span></div></div><div class="page-actions"><a class="button primary" href="monitor.html">打开监测控制台 →</a></div></section><div class="grid two" hidden><a class="quick-action" href="alerts.html"><div class="quick-icon">▤</div><div><strong>事件记录</strong><span class="muted">查看、筛选和处理疲劳事件</span></div><span>›</span></a><a class="quick-action" href="statistics.html"><div class="quick-icon">▥</div><div><strong>统计分析</strong><span class="muted">查看趋势和风险分布</span></div><span>›</span></a></div></div><aside class="grid"><section class="card"><div class="card-header"><h2 class="card-title">实时监测状态</h2><span class="chip">等待监测</span></div><div class="score-wrap"><div class="score-ring" style="background:#163849"><div><strong>--</strong><small>/ 100</small></div></div><div><h4 style="margin:0 0 6px">等待实时监测</h4><p class="muted">开启摄像头后，在监测页查看实时状态</p></div></div><div class="list-stack"><div class="list-row"><span class="risk-dot"></span><div><strong>闭眼时长</strong><small>等待实时检测</small></div><span class="row-value">--</span></div><div class="list-row"><span class="risk-dot"></span><div><strong>哈欠状态</strong><small>等待实时检测</small></div><span class="row-value">--</span></div></div></section><section class="card"><div class="card-header"><h2 class="card-title">最近事件</h2><a class="text-button" href="alerts.html">全部 ›</a></div><div id="recentAlerts" class="list-stack"><div class="empty-state">加载中...</div></div></section></aside></section>
+      </section>
+    </main>
+  </div>
+  <nav class="bottom-nav"><a class="active" data-nav href="index.html"><i>⌂</i><span>工作台</span></a><a data-nav href="monitor.html"><i>◉</i><span>监测</span></a>
+          <a data-nav href="models.html"><i>◇</i><span>模型</span></a><a data-nav href="alerts.html"><i>▤</i><span>事件</span></a><a data-nav href="reports.html"><i>▧</i><span>报告</span></a><a data-nav href="statistics.html"><i>▥</i><span>统计</span></a><a data-nav href="ai.html"><i>✦</i><span>AI</span></a><a data-nav href="settings.html"><i>⚙</i><span>设置</span></a></nav>
+  <script src="js/config.js?v=20261026-1"></script><script src="js/common.js?v=20261026-1"></script><script src="js/data.js?v=20261117-2"></script><script src="js/auth-client.js?v=20261026-1"></script><script src="js/auth-guard.js?v=20261026-1"></script><script src="js/app-shell.js?v=20261026-1"></script><script src="js/dashboard.js?v=20261026-1"></script>
+</body>
+</html>

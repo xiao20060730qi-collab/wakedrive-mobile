@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "contract": "wakedrive-web-v1",
+  "architecture": "mobilenet_v3_small",
+  "purpose": "eye_state_classification",
+  "trainedForFatigue": false,
+  "labelSchema": [
+    "open",
+    "closed"
+  ],
+  "normalization": "imagenet_rgb_grayscale",
+  "inputName": "images",
+  "inputSize": 64,
+  "outputName": "probabilities",
+  "dataset": {
+    "name": "MRL Eye Dataset",
+    "source": "https://mrl.cs.vsb.cz/eyedataset",
+    "license": "free for research purposes; see dataset page",
+    "valImages": 4000,
+    "split": "subjects 80/20"
+  },
+  "validation": {
+    "pytorchValAccuracy": 0.847,
+    "onnxValAccuracy": 0.847
+  },
+  "sha256": "ad105b1184bef87373edb8eef4a5708cd88da9b39c977b3518f6603f1c3d0ec8",
+  "notes": "眼状态分类器，用于补充 EAR 特征；未做道路疲劳诊断验证。"
+}

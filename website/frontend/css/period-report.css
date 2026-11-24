@@ -1,0 +1,108 @@
+#periodReport { margin-top: 16px; }
+#periodReport .card-header { gap: 12px; }
+.period-toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.period-kpis {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+  padding: 0 20px 4px;
+}
+.period-kpi {
+  padding: 12px 14px;
+  border: 1px solid rgba(70, 131, 157, 0.22);
+  border-radius: 10px;
+  background: rgba(10, 27, 41, 0.55);
+}
+.period-kpi span { display: block; color: #6f8fa2; font-size: 11px; }
+.period-kpi b { display: block; margin-top: 6px; font-size: 20px; color: var(--text); letter-spacing: -0.01em; }
+.period-kpi small { display: block; margin-top: 3px; color: #64859a; font-size: 10.5px; }
+.period-kpi b.warn { color: var(--yellow); }
+.period-kpi b.danger { color: #ff9da6; }
+.period-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 18px;
+  padding: 16px 20px 4px;
+}
+.period-block { border: 1px solid rgba(70, 131, 157, 0.18); border-radius: 12px; padding: 14px 16px; }
+.period-block h3 { margin: 0 0 10px; font-size: 13px; color: #b7dce7; }
+.period-block .muted { font-size: 11px; }
+.period-score-chart { display: flex; align-items: flex-end; gap: 4px; height: 120px; padding-top: 8px; }
+.period-score-col { flex: 1 1 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 4px; min-width: 0; }
+.period-score-bar-wrap { width: 100%; height: 92px; display: flex; align-items: flex-end; }
+.period-score-bar { width: 100%; border-radius: 3px 3px 0 0; background: linear-gradient(180deg, #42d9f5, #2a7fb8); min-height: 3px; }
+.period-score-bar.warn { background: linear-gradient(180deg, #f7c95b, #b8872b); }
+.period-score-bar.danger { background: linear-gradient(180deg, #ff9da6, #b8485a); }
+.period-score-col i { font-style: normal; color: #64859a; font-size: 9px; white-space: nowrap; }
+.period-bars { display: grid; gap: 9px; }
+.period-bars .bar-row { display: grid; grid-template-columns: 68px 1fr 32px; gap: 10px; align-items: center; font-size: 12px; }
+.period-bars .bar-track { height: 8px; border-radius: 999px; background: rgba(70, 131, 157, 0.22); overflow: hidden; }
+.period-bars .bar-fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, #2ac7dd, #287de2); }
+.period-bars .bar-fill.warning { background: linear-gradient(90deg, #f7c95b, #d38a2d); }
+.period-bars .bar-fill.danger { background: linear-gradient(90deg, #ff9da6, #c0394f); }
+.period-bars strong { text-align: right; font-size: 12px; }
+.period-badges { display: flex; flex-wrap: wrap; gap: 8px; padding: 16px 20px 0; }
+.period-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid rgba(69, 225, 155, 0.3);
+  border-radius: 999px;
+  background: rgba(69, 225, 155, 0.08);
+  color: #9fe9c4;
+  font-size: 11.5px;
+}
+.period-badge b { font-size: 12px; letter-spacing: 0.4px; }
+.period-badge.locked { border-color: rgba(70, 131, 157, 0.25); background: transparent; color: #64859a; }
+.period-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: #45e19b; }
+.period-badge.locked .dot { background: #4a6d7f; }
+.period-advice { margin: 0; padding: 14px 20px 20px; color: #9ab6c8; font-size: 12.5px; line-height: 1.8; }
+.period-status { padding: 14px 20px; color: #6f8fa2; font-size: 12px; }
+.print-only { display: none; }
+.period-print-head h1 { margin: 0; font-size: 24px; }
+.period-print-head p { margin: 4px 0 0; color: #555; font-size: 12px; }
+
+@media (max-width: 1100px) {
+  .period-kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .period-grid { grid-template-columns: 1fr; }
+  .period-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .period-toolbar { width: 100%; }
+}
+
+@media print {
+  @page { margin: 14mm 12mm; }
+  html, body { background: #fff !important; color: #111 !important; }
+  .sidebar, .topbar, .bottom-nav, .toast { display: none !important; }
+  .app-shell { display: block !important; min-height: 0 !important; background: #fff !important; }
+  .main, .content { width: 100% !important; max-width: none !important; margin: 0 !important; padding: 0 !important; min-width: 0 !important; overflow: visible !important; }
+  .content > :not(#periodReport) { display: none !important; }
+  #periodReport { position: static !important; width: auto !important; margin: 0 !important; border: 0 !important; box-shadow: none !important; background: #fff !important; }
+  #periodReport .print-only { display: block; }
+  #periodReport .card-header { padding: 0 0 12px; border-bottom: 1px solid #ddd; }
+  #periodReport .period-toolbar, #periodReport .muted { display: none !important; }
+  #periodReport .card-header > div:not(.period-print-head) { display: none !important; }
+  #periodReport #periodGenerated { display: none !important; }
+  #periodReport .period-kpis { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+  #periodReport .period-kpi { padding: 8px 10px; }
+  #periodReport .period-grid { padding-top: 10px; gap: 12px; }
+  #periodReport .period-score-chart { height: 86px; }
+  #periodReport .period-score-bar-wrap { height: 62px; }
+  #periodReport .period-badges { padding-top: 10px; }
+  #periodReport .period-advice { padding-top: 10px; padding-bottom: 0; }
+  #periodReport .period-status { display: none !important; }
+  #periodReport .card-title { color: #111 !important; }
+  #periodReport .period-kpis, #periodReport .period-grid, #periodReport .period-badges, #periodReport .period-advice { padding-left: 0; padding-right: 0; }
+  #periodReport .period-kpi, #periodReport .period-block { background: #fff !important; border-color: #ddd !important; }
+  #periodReport .period-kpi span, #periodReport .period-kpi small, #periodReport .period-block .muted, #periodReport .period-score-col i, #periodReport .period-advice, #periodReport .period-status { color: #555 !important; }
+  #periodReport .period-kpi b, #periodReport .period-score-chart, #periodReport .period-bars strong { color: #111 !important; }
+  #periodReport .period-kpi b.warn, #periodReport .period-kpi b.danger { color: #a1501d !important; }
+  #periodReport .period-bars .bar-track { background: #eee !important; }
+  #periodReport .period-badge { border-color: #bbb !important; background: #f6f6f6 !important; color: #333 !important; }
+  #periodReport .period-badge.locked { border-style: dashed !important; color: #666 !important; }
+  #periodReport .period-score-bar { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  #periodReport .period-print-head { display: block !important; margin-bottom: 14px; }
+  #periodReport .period-print-head p { color: #555 !important; }
+}

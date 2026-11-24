@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta name="copyright" content="WakeDrive (c) 2026, All Rights Reserved." />
+    <script src="js/guard.js?v=20261124"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <script src="js/prefs.js?v=20261122-1"></script>
+    <title>WakeDrive · 事件记录</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css?v=20261122-3" />
+    <link rel="stylesheet" href="css/workbench.css?v=20261117-2" />
+      <link rel="stylesheet" href="css/theme.css?v=20261122-1" />
+      <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=20261122" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=20261122" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="index.html"
+          ><div class="brand-mark">W</div>
+          <div>
+            <strong>WakeDrive<span>·AI</span></strong
+            ><small>驾驶安全智能平台</small>
+          </div></a
+        >
+        <div class="side-label">工作台</div>
+        <nav class="side-nav">
+          <a data-nav href="index.html"><i>⌂</i>工作台</a
+          ><a data-nav href="monitor.html"><i>◉</i>实时监测</a
+          >
+          <a data-nav href="models.html"><i>◇</i>模型清单</a><a class="active" data-nav href="alerts.html"><i>▤</i>事件记录</a
+          ><a data-nav href="reports.html"><i>▧</i>监测报告</a><a data-nav href="statistics.html"><i>▥</i>统计分析</a
+          ><a data-nav href="settings.html"><i>⚙</i>系统设置</a
+          ><a data-nav href="ai.html"><i>✦</i>AI 分析</a>
+        </nav>
+        <div class="sidebar-foot">
+          <div class="secure-dot"></div>
+          <div><b>账号数据保护</b><span>监测记录保存至当前账号</span></div>
+        </div>
+      </aside>
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">SAFETY EVENTS</p>
+            <h1>事件记录</h1>
+          </div>
+          <div class="top-actions">
+            <span class="chip safe"
+              ><span class="status-dot"></span>系统运行中</span
+            ><span class="chip" data-data-source>正在连接账号数据</span
+            ><span class="clock" data-live-clock>--:--:--</span
+            ><a class="avatar" href="settings.html" aria-label="系统设置">S</a>
+          </div>
+        </header>
+        <section class="content">
+          <div class="page-header">
+            <div>
+              <p class="page-kicker">EVENT HISTORY</p>
+              <h2 class="page-title">事件记录</h2>
+              <p class="page-subtitle">
+                统一查看、筛选和处理全部疲劳事件。
+              </p>
+            </div>
+            <div class="toolbar">
+              <a class="button" href="index.html">← 返回工作台</a>
+              <button class="button" id="refreshEvents">↻ 刷新</button>
+              <button class="button" id="exportEvents">导出 CSV</button>
+              <button class="button danger-button" id="clearEvents">清空记录</button>
+            </div>
+          </div>
+          <section class="grid three">
+            <article class="card metric-card">
+              <div class="metric-top"><span>待处理</span><i>!</i></div>
+              <div
+                class="metric-value"
+                id="pendingCount"
+                style="color: var(--yellow)"
+              >
+                -
+              </div>
+              <div class="metric-label">需要安全员复核</div>
+            </article>
+            <article class="card metric-card">
+              <div class="metric-top"><span>高风险</span><i>▲</i></div>
+              <div
+                class="metric-value"
+                id="highRiskCount"
+                style="color: #ff9da6"
+              >
+                -
+              </div>
+              <div class="metric-label">重度疲劳事件</div>
+            </article>
+            <article class="card metric-card">
+              <div class="metric-top"><span>今日事件</span><i>◷</i></div>
+              <div
+                class="metric-value"
+                id="todayCount"
+                style="color: var(--cyan)"
+              >
+                -
+              </div>
+              <div class="metric-label">过去 24 小时</div>
+            </article>
+          </section>
+          <section class="card" style="margin-top: 16px">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">事件列表</h2>
+                <span class="muted">点击一行查看指标详情和建议动作</span>
+              </div>
+            </div>
+            <div class="filter-row">
+              <div class="form-field">
+                <label for="severityFilter">风险等级</label
+                ><select id="severityFilter">
+                  <option value="">全部等级</option>
+                  <option value="轻度疲劳">轻度疲劳</option>
+                  <option value="中度疲劳">中度疲劳</option>
+                  <option value="重度疲劳">重度疲劳</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label for="statusFilter">处理状态</label
+                ><select id="statusFilter">
+                  <option value="">全部状态</option>
+                  <option value="待处理">待处理</option>
+                  <option value="已处理">已处理</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label for="typeFilter">事件类型</label
+                ><select id="typeFilter">
+                  <option value="">全部类型</option>
+                  <option value="EYE_CLOSE">闭眼</option>
+                  <option value="YAWN">打哈欠</option>
+                  <option value="PHONE_USE">使用手机</option>
+                  <option value="HEAD_DOWN">低头</option>
+                  <option value="HEAD_AWAY">视线偏离</option>
+                  <option value="FACE_LOST">未检测到人脸</option>
+                  <option value="DRINK">喝水/抬手</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label for="fromFilter">开始日期</label
+                ><input id="fromFilter" type="date" />
+              </div>
+              <div class="form-field">
+                <label for="toFilter">结束日期</label
+                ><input id="toFilter" type="date" />
+              </div>
+              <button class="button primary" id="applyEventFilters">
+                应用筛选
+              </button>
+            </div>
+            <div id="eventError" class="error-state" hidden></div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>时间</th>
+                    <th>司机 / 车牌</th>
+                    <th>事件</th>
+                    <th>风险等级</th>
+                    <th>EAR / MAR</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody id="eventRows">
+                  <tr>
+                    <td colspan="7">
+                      <div class="empty-state">加载中...</div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+    <nav class="bottom-nav">
+      <a data-nav href="index.html"><i>⌂</i><span>工作台</span></a
+      ><a data-nav href="monitor.html"><i>◉</i><span>监测</span></a
+      >
+          <a data-nav href="models.html"><i>◇</i><span>模型</span></a><a class="active" data-nav href="alerts.html"
+        ><i>▤</i><span>事件</span></a
+      ><a data-nav href="reports.html"><i>▧</i><span>报告</span></a><a data-nav href="statistics.html"><i>▥</i><span>统计</span></a
+      ><a data-nav href="ai.html"><i>✦</i><span>AI</span></a><a data-nav href="settings.html"><i>⚙</i><span>设置</span></a>
+    </nav>
+    <div id="drawerBackdrop" class="drawer-backdrop"></div>
+    <aside id="eventDrawer" class="drawer" aria-hidden="true">
+      <div class="drawer-head">
+        <div>
+          <p class="page-kicker">EVENT DETAIL</p>
+          <h3 id="drawerTitle">事件详情</h3>
+        </div>
+        <button class="drawer-close" id="closeDrawer" aria-label="关闭">
+          ×
+        </button>
+      </div>
+      <div id="drawerContent"></div>
+      <div class="page-actions" style="padding: 20px 0 0">
+        <button class="button primary" id="acknowledgeEvent">确认已处理</button>
+      </div>
+    </aside>
+    <script src="js/config.js?v=20261026-1"></script>
+    <script src="js/common.js?v=20261026-1"></script>
+    <script src="js/data.js?v=20261117-2"></script>
+    <script src="js/auth-client.js?v=20261026-1"></script>
+    <script src="js/auth-guard.js?v=20261026-1"></script>
+    <script src="js/app-shell.js?v=20261026-1"></script>
+    <script src="js/alerts-page.js?v=20261117-1"></script>
+  </body>
+</html>

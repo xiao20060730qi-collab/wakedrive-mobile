@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta name="copyright" content="WakeDrive (c) 2026, All Rights Reserved." />
+    <script src="frontend/js/guard.js?v=20261124"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#060b12" />
+  <meta name="description" content="WakeDrive 是面向真实驾驶场景的 AI 疲劳驾驶检测平台：浏览器端六个视觉模型与 OpenCV 图像处理、手机端四模型并行推理，连续评分、分级预警、事件存证，多端数据同步。" />
+  <title>WakeDrive · 驾驶安全智能平台</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="styles.css?v=20261122-3" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=20261122" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=20261122" />
+  </head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+  <div class="ambient" aria-hidden="true">
+    <span class="ambient-orb orb-a"></span>
+    <span class="ambient-orb orb-b"></span>
+    <span class="ambient-grid"></span>
+  </div>
+
+  <header class="site-header" id="top">
+    <div class="shell header-inner">
+      <a class="brand" href="#top" aria-label="WakeDrive 首页">
+        <span class="brand-mark">W</span>
+        <span class="brand-text">
+          <strong>WakeDrive<span>·AI</span></strong>
+          <small>驾驶安全智能平台</small>
+        </span>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primaryNav" aria-label="打开导航">
+        <span></span><span></span>
+      </button>
+      <nav class="primary-nav" id="primaryNav" aria-label="主导航">
+        <a href="#capabilities">产品能力</a>
+        <a href="#pipeline">监测链路</a>
+        <a href="#levels">分级预警</a>
+        <a href="#devices">多端体验</a>
+        <a href="#privacy">安全与隐私</a>
+        <a class="nav-cta" href="/frontend/index.html" target="_blank" rel="noopener">进入驾驶工作台</a>
+      </nav>
+      <a class="btn btn-primary header-cta" href="/frontend/index.html" target="_blank" rel="noopener">
+        进入系统
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="shell hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow"><span class="pulse-dot"></span>AI DRIVING SAFETY · 实时疲劳监测</p>
+          <h1>清醒，<br /><span class="accent">是回家最近的路。</span></h1>
+          <p class="hero-sub">WakeDrive 把六个视觉模型与 OpenCV 图像处理装进浏览器，把四模型推理装进手机，实时读懂闭眼、哈欠、低头与分心。风险不是固定档位，而是逐帧更新的连续判断。</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-lg" href="/frontend/index.html" target="_blank" rel="noopener">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M6 4.5v9l8-4.5-8-4.5Z" fill="currentColor"/></svg>
+              进入驾驶工作台
+            </a>
+            <a class="btn btn-ghost btn-lg" href="#capabilities">查看核心能力</a>
+          </div>
+          <ul class="hero-notes">
+            <li>无需安装</li>
+            <li>浏览器端推理</li>
+            <li>数据归属账号</li>
+          </ul>
+        </div>
+
+        <div class="hero-visual reveal" data-delay="120">
+          <div class="console" role="img" aria-label="WakeDrive 实时监测界面示意：面部网格锁定、疲劳指数 72、闭眼 1.8 秒、中度疲劳提醒">
+            <div class="console-bar">
+              <span class="win-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="console-title">实时监测 · 驾驶位</span>
+              <span class="live-chip"><i></i>MONITORING</span>
+            </div>
+            <div class="console-body">
+              <div class="cam">
+                <svg class="face-mesh" viewBox="0 0 300 340" fill="none" aria-hidden="true">
+                  <path class="mesh-outline" d="M150 42C101 42 74 92 74 152c0 68 32 126 76 138 44-12 76-70 76-138 0-60-27-110-76-110Z"/>
+                  <path class="mesh-line" d="M116 144c11-9 23-12 34-6 11-6 23-3 34 6M119 196c20 12 41 12 62 0"/>
+                  <path class="mesh-line faint" d="M150 140v56M138 232h24M108 160c-12 2-20 10-22 20M192 160c12 2 20 10 22 20"/>
+                  <g class="mesh-dots">
+                    <circle cx="126" cy="146" r="3"/><circle cx="150" cy="137" r="3"/><circle cx="174" cy="146" r="3"/>
+                    <circle cx="112" cy="174" r="2.4"/><circle cx="188" cy="174" r="2.4"/>
+                    <circle cx="150" cy="186" r="2.6"/><circle cx="128" cy="200" r="2.4"/><circle cx="172" cy="200" r="2.4"/>
+                    <circle cx="138" cy="232" r="2.4"/><circle cx="150" cy="238" r="2.4"/><circle cx="162" cy="232" r="2.4"/>
+                    <circle cx="104" cy="122" r="2"/><circle cx="196" cy="122" r="2"/>
+                    <circle cx="92" cy="200" r="2"/><circle cx="208" cy="200" r="2"/>
+                  </g>
+                  <g class="mesh-scan"><rect x="60" y="0" width="180" height="2" rx="1"/></g>
+                </svg>
+                <div class="cam-corner tl"></div><div class="cam-corner tr"></div>
+                <div class="cam-corner bl"></div><div class="cam-corner br"></div>
+                <span class="lock-chip">FACE LOCKED</span>
+                <div class="cam-footer">
+                  <span>EAR 0.19</span><span>MAR 0.71</span><span>YAW 4°</span>
+                </div>
+              </div>
+
+              <div class="console-side">
+                <div class="risk-ring" style="--score: 72">
+                  <div class="risk-ring-inner">
+                    <strong>72</strong>
+                    <small>疲劳指数</small>
+                  </div>
+                </div>
+                <p class="risk-level">中度疲劳</p>
+                <dl class="metric-list">
+                  <div><dt>闭眼时长</dt><dd>1.8<em>s</em></dd></div>
+                  <div><dt>哈欠</dt><dd>2<em>次 / 3min</em></dd></div>
+                  <div><dt>实时车速</dt><dd>62<em>km/h</em></dd></div>
+                </dl>
+                <p class="console-alert"><span></span>检测到中度疲劳，建议尽快休息</p>
+              </div>
+            </div>
+            <div class="console-foot">
+              <span class="foot-label">事件时间轴</span>
+              <span class="time-event"><i class="warn"></i>闭眼 · 中度</span>
+              <span class="time-event"><i></i>哈欠 · 轻度</span>
+              <span class="time-event"><i class="ok"></i>正常</span>
+            </div>
+            <div class="float-chip chip-speed">高德测速 <b>62</b> km/h</div>
+            <div class="float-chip chip-face">15s 人脸丢失强报警</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="shell">
+        <dl class="stat-band reveal">
+          <div><dt>6</dt><dd>个视觉模型 + OpenCV 处理</dd></div>
+          <div><dt>9</dt><dd>类风险行为识别</dd></div>
+          <div><dt>15<em>s</em></dt><dd>人脸丢失强报警</dd></div>
+          <div><dt>3</dt><dd>端同步 · Web / Android / iOS</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="section" id="capabilities">
+      <div class="shell">
+        <div class="section-head reveal">
+          <p class="eyebrow">CAPABILITIES</p>
+          <h2>不只看眼睛，<br />而是理解整个驾驶状态。</h2>
+          <p>从眼部、嘴部到头姿与手部动作，多个维度共同构成一次判断。每一个告警，都有可回溯的依据。</p>
+        </div>
+        <div class="cap-grid">
+          <article class="cap-card reveal">
+            <span class="cap-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2.5 12s3.6-6 9.5-6 9.5 6 9.5 6-3.6 6-9.5 6-9.5-6-9.5-6Z" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.8" stroke="currentColor" stroke-width="1.6"/></svg></span>
+            <span class="cap-no">01</span>
+            <h3>眼部状态</h3>
+            <p>闭眼时长、闭眼占比与眨眼频率联合判断，针对眼镜反光与遮挡做归一化处理。</p>
+          </article>
+          <article class="cap-card reveal">
+            <span class="cap-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21c4.4 0 7-3.1 7-6.6 0-4.7-4.1-6.4-4.9-11.4-2.7 1.7-3.4 4.6-3.1 7.1-1.3-.7-1.9-1.9-2-3.4C6.2 8.5 5 10.9 5 14.4 5 17.9 7.6 21 12 21Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+            <span class="cap-no">02</span>
+            <h3>哈欠识别</h3>
+            <p>嘴部开合与持续时间双阈值判断，三分钟内两次以上哈欠自动升级提醒等级。</p>
+          </article>
+          <article class="cap-card reveal">
+            <span class="cap-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 20V9.5a2 2 0 1 1 4 0V13m0-1.5a2 2 0 1 1 4 0V15m0-2a2 2 0 1 1 4 0v4a5 5 0 0 1-5 5h-2.6A6.4 6.4 0 0 1 7 15.6V13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="cap-no">03</span>
+            <h3>头部姿态</h3>
+            <p>6D 姿态估计识别低头与视线偏离，低头导致的人脸丢失同样触发对应语音与报警。</p>
+          </article>
+          <article class="cap-card reveal">
+            <span class="cap-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="7" y="3.5" width="10" height="17" rx="2.2" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 6.5h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+            <span class="cap-no">04</span>
+            <h3>分心行为</h3>
+            <p>接打电话、抽烟、喝水抬手分别识别，触发不同强度与文案的即时提醒。</p>
+          </article>
+          <article class="cap-card reveal">
+            <span class="cap-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.5 4.5 7v5.4c0 4.3 3.1 7.2 7.5 8.1 4.4-.9 7.5-3.8 7.5-8.1V7L12 3.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12h6M12 9v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+            <span class="cap-no">05</span>
+            <h3>人脸丢失</h3>
+            <p>连续两帧确认恢复，杜绝单帧误检。8 秒横幅、12 秒语音、15 秒刺耳报警与弹窗逐级升级。</p>
+          </article>
+          <article class="cap-card reveal">
+            <span class="cap-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 16a8 8 0 1 1 16 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="m12 16 4-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="16" r="1.6" fill="currentColor"/></svg></span>
+            <span class="cap-no">06</span>
+            <h3>车速联动</h3>
+            <p>高德定位持续测速，车辆启动自动进入监测且不可强制关闭；停车三分钟确认休息后结束。疲劳升级时自动推荐就近服务区并支持一键导航。</p>
+          </article>
+          <article class="cap-card reveal">
+            <span class="cap-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 17V9m5 8V5m5 12v-6m5 6V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+            <span class="cap-no">07</span>
+            <h3>连续疲劳指数</h3>
+            <p>多指标归一化后逐帧平滑，20 / 45 / 70 三档下限约束等级，不再出现固定分数跳变。</p>
+          </article>
+          <article class="cap-card reveal">
+            <span class="cap-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M8 9h8M8 13h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="16" cy="16" r="2.2" fill="currentColor"/></svg></span>
+            <span class="cap-no">08</span>
+            <h3>事件存证</h3>
+            <p>告警时间轴、抓拍快照、监测报告与统计分布，按账号隔离保存，随时复核。</p>
+          </article>
+          <article class="cap-card reveal">
+            <span class="cap-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.5 13.9 9l5.6 1.9-5.6 1.9L12 18.5l-1.9-5.7-5.6-1.9L10.1 9 12 3.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M18.5 16.5 19.3 19l2.2.8-2.2.8-.8 2.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" opacity=".6"/></svg></span>
+            <span class="cap-no">09</span>
+            <h3>AI 解析与权限</h3>
+            <p>AI 分析窗口解读本次监测，管理员拥有独立的账号、密码与删除管理权限。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section pipeline-section" id="pipeline">
+      <div class="shell">
+        <div class="section-head reveal">
+          <p class="eyebrow">PIPELINE</p>
+          <h2>从一帧画面，<br />到一次及时的提醒。</h2>
+          <p>整条链路在设备端完成视觉推理，只有必要的事件快照按账号保存。快，但不把画面交给远方。</p>
+        </div>
+        <ol class="pipeline">
+          <li class="reveal">
+            <span class="pipe-step">01 / 采集与预处理</span>
+            <h3>OpenCV 画质归一化</h3>
+            <p>电脑端用 OpenCV.js 完成 ROI 裁剪、灰度化、亮度和清晰度检测与 CLAHE 增强，手机端使用原生图像管线。</p>
+            <span class="pipe-tag">OpenCV.js · Canvas · CameraX</span>
+          </li>
+          <li class="reveal">
+            <span class="pipe-step">02 / 推理</span>
+            <h3>六模型并行</h3>
+            <p>人脸关键点、目标检测、人体姿态、头部姿态、MobileNetV3 眼状态与因果 TCN 时序模型同时运行，输出多维指标。</p>
+            <span class="pipe-tag">MediaPipe · ONNX Runtime Web</span>
+          </li>
+          <li class="reveal">
+            <span class="pipe-step">03 / 评分</span>
+            <h3>连续疲劳指数</h3>
+            <p>指标归一化取最大值，叠加等级下限与平滑，逐帧输出 0–100 的风险分数。</p>
+            <span class="pipe-tag">四等级 · 连续更新</span>
+          </li>
+          <li class="reveal">
+            <span class="pipe-step">04 / 响应</span>
+            <h3>分级提醒与存证</h3>
+            <p>语音、刺耳警报、弹窗与事件快照按等级升级，恢复后自动停止。</p>
+            <span class="pipe-tag">Alarm · Snapshot · Report</span>
+          </li>
+        </ol>
+
+        <div class="model-row">
+          <article class="model-card reveal"><span>01</span><h3>MediaPipe Face Landmarker</h3><p>人脸关键点与眼部、嘴部几何特征。</p></article>
+          <article class="model-card reveal"><span>02</span><h3>YOLO11n</h3><p>驾驶场景目标检测：手机、香烟、水杯等。</p></article>
+          <article class="model-card reveal"><span>03</span><h3>YOLOv8n-pose</h3><p>上半身姿态与手部动作识别。</p></article>
+          <article class="model-card reveal"><span>04</span><h3>6DRepNet360</h3><p>头部 6D 姿态估计，识别低头与侧视。</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="levels">
+      <div class="shell levels-grid">
+        <div class="section-head reveal">
+          <p class="eyebrow">RISK LEVELS</p>
+          <h2>风险有等级，<br />提醒才有分寸。</h2>
+          <p>分数实时变化，响应逐级增强。轻度先提醒，重度才使用刺耳循环警报，避免打扰与麻木。</p>
+          <div class="score-demo" aria-hidden="true">
+            <div class="score-demo-head"><span>连续评分示意</span><b><i class="score-pulse"></i>LIVE</b></div>
+            <div class="score-track"><span class="score-fill" style="--w: 72%"></span></div>
+            <div class="score-ticks"><span>0</span><span>20</span><span>45</span><span>70</span><span>100</span></div>
+          </div>
+        </div>
+        <div class="level-list">
+          <article class="level-card reveal" data-level="calm">
+            <span class="level-range">0–19</span>
+            <div><h3>清醒</h3><p>正常驾驶，保留轻量状态提示，不打断注意力。</p></div>
+            <span class="level-badge">常态</span>
+          </article>
+          <article class="level-card reveal" data-level="light">
+            <span class="level-range">20–44</span>
+            <div><h3>轻度疲劳</h3><p>温和语音提醒，记录事件并进入时间轴。</p></div>
+            <span class="level-badge">提醒</span>
+          </article>
+          <article class="level-card reveal" data-level="mid">
+            <span class="level-range">45–69</span>
+            <div><h3>中度疲劳</h3><p>提高音量并弹窗提示，建议尽快寻找休息点。</p></div>
+            <span class="level-badge">警示</span>
+          </article>
+          <article class="level-card reveal" data-level="high">
+            <span class="level-range">70–100</span>
+            <div><h3>重度疲劳</h3><p>刺耳循环警报与强提醒，优先保障驾驶安全。</p></div>
+            <span class="level-badge">强报警</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section devices-section" id="devices">
+      <div class="shell devices-grid">
+        <div class="phone-stage reveal">
+          <div class="phone">
+            <div class="phone-notch"></div>
+            <img src="assets/android-dashboard.jpg" width="720" height="1600" alt="WakeDrive Android 端驾驶工作台界面" loading="lazy" />
+          </div>
+          <div class="phone-glow" aria-hidden="true"></div>
+        </div>
+        <div class="devices-copy">
+          <div class="section-head reveal">
+            <p class="eyebrow">MULTI-DEVICE</p>
+            <h2>在电脑上复盘，<br />在路上被提醒。</h2>
+            <p>网页端、Android 与 iOS 共用同一套风险规则与账号数据。车上用手机，回到工作台看报告。</p>
+          </div>
+          <div class="device-cards">
+            <article class="reveal">
+              <span class="device-tag">WEB</span>
+              <h3>驾驶工作台</h3>
+              <p>实时监测、事件记录、监测报告与统计分析，浏览器打开即用。</p>
+              <a href="/frontend/index.html" target="_blank" rel="noopener">打开工作台 <span>↗</span></a>
+            </article>
+            <article class="reveal">
+              <span class="device-tag">ANDROID</span>
+              <h3>随身监测端</h3>
+              <p>Kotlin 原生实现，CameraX 采集与端侧多模型推理，安卓安装包可直接下载。</p>
+              <a href="/frontend/download.html#android" target="_blank" rel="noopener">下载与安装 <span>↗</span></a>
+            </article>
+            <article class="reveal">
+              <span class="device-tag">iOS</span>
+              <h3>iPhone 监测端</h3>
+              <p>SwiftUI 构建，与网页端功能对齐，通过云构建生成安装包。</p>
+              <a href="/frontend/download.html#ios" target="_blank" rel="noopener">下载与安装 <span>↗</span></a>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="privacy">
+      <div class="shell">
+        <div class="privacy-panel reveal">
+          <div class="privacy-head">
+            <p class="eyebrow">TRUST &amp; PRIVACY</p>
+            <h2>提醒可以很响亮，<br />数据必须很克制。</h2>
+            <p>视觉推理优先留在设备端，事件存证按账号隔离。安全提醒之外，不做多余的事。</p>
+            <a class="btn btn-ghost" href="/frontend/index.html" target="_blank" rel="noopener">登录查看我的记录</a>
+          </div>
+          <ul class="privacy-list">
+            <li>
+              <span class="privacy-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4.5" y="10" width="15" height="10" rx="2.2" stroke="currentColor" stroke-width="1.6"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+              <div><h3>本地优先推理</h3><p>视频帧在设备端完成检测，不上传整段视频；仅告警时刻生成必要快照。</p></div>
+            </li>
+            <li>
+              <span class="privacy-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="3.4" stroke="currentColor" stroke-width="1.6"/><path d="M5 20a7 7 0 0 1 14 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+              <div><h3>按账号隔离</h3><p>监测记录、事件快照与统计结果只归属当前登录账号。</p></div>
+            </li>
+            <li>
+              <span class="privacy-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.5 4.5 7v5.4c0 4.3 3.1 7.2 7.5 8.1 4.4-.9 7.5-3.8 7.5-8.1V7L12 3.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="m8.8 12.2 2.2 2.2 4.4-4.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <div><h3>权限分级</h3><p>超级管理员专属的账号管理入口，普通管理员不可见、不可操作。</p></div>
+            </li>
+            <li>
+              <span class="privacy-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19V9m4.7 10V5M14.3 19v-7M19 19V8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+              <div><h3>可控存证</h3><p>事件仅在触发告警时记录，用于复核、报告与安全审计。</p></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta-section">
+      <div class="shell">
+        <div class="cta-panel reveal">
+          <p class="eyebrow">START A SAFE DRIVE</p>
+          <h2>下一次困意来临之前，<br />让提醒先到。</h2>
+          <div class="cta-actions">
+            <a class="btn btn-primary btn-lg" href="/frontend/index.html" target="_blank" rel="noopener">进入驾驶工作台</a>
+            <a class="btn btn-ghost btn-lg" href="/frontend/register.html" target="_blank" rel="noopener">注册驾驶账号</a>
+          </div>
+          <p class="cta-note">支持电脑摄像头与手机浏览器 · 建议在光线充足、镜头正对驾驶位时使用</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="#top" aria-label="WakeDrive 首页">
+          <span class="brand-mark">W</span>
+          <span class="brand-text"><strong>WakeDrive<span>·AI</span></strong><small>驾驶安全智能平台</small></span>
+        </a>
+        <p>专注每一次出发。</p>
+      </div>
+      <nav class="footer-nav" aria-label="页脚导航">
+        <div>
+          <h4>产品</h4>
+          <a href="#capabilities">核心能力</a>
+          <a href="#pipeline">监测链路</a>
+          <a href="#devices">多端体验</a>
+        </div>
+        <div>
+          <h4>系统</h4>
+          <a href="/frontend/index.html" target="_blank" rel="noopener">驾驶工作台</a>
+          <a href="/frontend/download.html" target="_blank" rel="noopener">下载 App</a>
+          <a href="/frontend/admin-login.html" target="_blank" rel="noopener">管理员登录</a>
+          <a href="/frontend/register.html" target="_blank" rel="noopener">注册账号</a>
+        </div>
+        <div>
+          <h4>说明</h4>
+          <a href="#privacy">安全与隐私</a>
+          <a href="#levels">分级预警</a>
+          <a href="#top">回到顶部</a>
+        </div>
+      </nav>
+    </div>
+    <div class="shell footer-bottom">
+      <span>© 2026 WakeDrive. 保留所有权利。</span>
+      <span>AI 驾驶安全 · 实时疲劳监测</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

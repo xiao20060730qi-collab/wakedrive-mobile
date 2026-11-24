@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "contract": "wakedrive-web-v1",
+  "architecture": "causal_tcn",
+  "purpose": "temporal_fatigue_fusion",
+  "trainedForFatigue": false,
+  "labelSchema": [
+    "alert",
+    "fatigued"
+  ],
+  "normalization": "features_v1",
+  "inputName": "features",
+  "inputShape": [
+    1,
+    6,
+    32
+  ],
+  "outputName": "probabilities",
+  "channels": [
+    "ear",
+    "mar",
+    "perclos",
+    "abs_yaw_over_90",
+    "abs_pitch_over_90",
+    "closed_eye_millis_over_2000"
+  ],
+  "sampling": {
+    "fps": 5,
+    "window": 32
+  },
+  "training": {
+    "method": "rule_distillation",
+    "data": "synthetic feature sequences matching the site's logged EAR/MAR/PERCLOS/head-pose ranges",
+    "labels": "site temporal fatigue rules (closed ratio, microsleep run, yawn run, head-down duration, PERCLOS)",
+    "trainSequences": 60000,
+    "valSequences": 12000
+  },
+  "validation": {
+    "valAccuracy": 0.9779,
+    "valAuc": 0.9987,
+    "onnxAccuracy": 0.9785
+  },
+  "sha256": "86b3b705cdd0a960dbf25b65730c060283488625aa1f3c71cfb4188bba3ee405",
+  "notes": "用于学习式时序融合与平滑，不是真实道路疲劳样本训练，不能替代规则或诊断。"
+}

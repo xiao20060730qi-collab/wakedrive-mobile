@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta name="copyright" content="WakeDrive (c) 2026, All Rights Reserved." />
+    <script src="js/guard.js?v=20261124"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>WakeDrive · 模型清单</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css?v=20261026-1" />
+    <link rel="stylesheet" href="css/workbench.css?v=20261117-2" />
+    <link rel="stylesheet" href="css/models.css?v=20261026-1" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="../index.html"><div class="brand-mark">W</div><div><strong>WakeDrive<span>·AI</span></strong><small>驾驶安全智能平台</small></div></a>
+        <div class="side-label">工作台</div>
+        <nav class="side-nav" aria-label="工作台导航">
+          <a data-nav href="../index.html"><i>⌂</i>工作台</a>
+          <a data-nav href="monitor.html"><i>◉</i>实时监测</a>
+          <a class="active" data-nav href="models.html" aria-current="page"><i>◇</i>模型清单</a>
+          <a data-nav href="alerts.html"><i>▤</i>事件记录</a>
+          <a data-nav href="statistics.html"><i>▥</i>统计分析</a>
+          <a data-nav href="settings.html"><i>⚙</i>系统设置</a>
+          <a data-nav href="ai.html"><i>✦</i>AI 分析</a>
+        </nav>
+        <div class="sidebar-foot"><div class="secure-dot"></div><div><b>账号数据保护</b><span>监测记录保存至当前账号</span></div></div>
+      </aside>
+      <main class="main">
+        <header class="topbar">
+          <div><p class="eyebrow">MODEL CATALOG</p><h1>模型清单</h1></div>
+          <div class="top-actions"><span class="chip">6 项模型 + OpenCV</span><span class="clock" data-live-clock>--:--:--</span><a class="avatar" href="settings.html" aria-label="系统设置">S</a></div>
+        </header>
+        <section class="content models-content">
+          <div class="page-header">
+            <div><p class="page-kicker">VISION &amp; TEMPORAL INTELLIGENCE</p><h2 class="page-title">每一项能力，都有清晰的接入状态</h2><p class="page-subtitle">查看驾驶监测使用与规划中的模型，了解用途、输入和输出。</p></div>
+            <a class="button primary" href="monitor.html">◉ 进入实时监测</a>
+          </div>
+
+          <section class="model-overview card" aria-label="模型接入概况">
+            <div class="overview-copy"><span class="model-overline">当前检测链路</span><h3>OpenCV 预处理 → MediaPipe 人脸感知 → 多模型融合 → 疲劳风险提醒</h3><p>实时监测已接入 OpenCV、MediaPipe、YOLO11n / YOLOv8 / 6DRepNet、MobileNetV3-Small 与因果 TCN（ONNX Runtime Web，浏览器本地推理）：OpenCV 负责画质检测与 CLAHE 预处理，MediaPipe 计算眼部嘴部特征，YOLO 识别手机与通话姿态，6DRepNet 估计头姿，MobileNetV3 判定眼状态，因果 TCN 融合 32 帧时序特征输出疲劳概率。</p></div>
+            <dl class="model-counts"><div><dt>模型 / 架构</dt><dd>6</dd></div><div><dt>已接入</dt><dd class="count-ready">6</dd></div><div><dt>待接入</dt><dd>0</dd></div></dl>
+          </section>
+
+          <div class="catalog-heading"><h3>六项模型 + OpenCV 视觉处理库</h3><p>“已接入”表示已连接检测流程，实际运行状态请在实时监测页查看。</p></div>
+          <section class="model-grid" aria-label="六项模型清单">
+            <article class="card model-card model-card-ready" id="mediapipe">
+              <div class="model-card-top"><span class="model-number">01 / FACE LANDMARKS</span><span class="chip safe"><span class="status-dot"></span>已接入</span></div>
+              <h3>MediaPipe</h3><p class="model-subtitle">Face Landmarker · 人脸关键点与表情</p>
+              <p class="model-description">提取人脸关键点与表情分数，为当前网站的闭眼、张嘴和疲劳风险判断提供特征。</p>
+              <dl class="model-details"><div><dt>输入</dt><dd>摄像头视频帧</dd></div><div><dt>输出</dt><dd>人脸关键点、表情 blendshape 分数；网站据此计算 EAR、闭眼时长等指标</dd></div><div><dt>接入状态</dt><dd>已连接实时监测；浏览器本地推理，需允许摄像头并成功加载模型</dd></div></dl>
+              <div class="model-card-foot"><a href="https://ai.google.dev/edge/mediapipe/solutions/vision/face_landmarker" target="_blank" rel="noopener noreferrer">Google 官方文档 ↗</a><a href="monitor.html">查看实时监测 →</a></div>
+            </article>
+
+            <article class="card model-card model-card-ready" id="mobilenetv3-small">
+              <div class="model-card-top"><span class="model-number">02 / IMAGE CLASSIFICATION</span><div class="model-badges"><span class="model-new-badge">新增</span><span class="chip safe"><span class="status-dot"></span>已接入</span></div></div>
+              <h3>MobileNetV3-Small</h3><p class="model-subtitle">轻量图像分类 · 眼状态判定</p>
+              <p class="model-description">已接入浏览器本地推理：MediaPipe 定位左右眼区域，OpenCV 完成裁剪、灰度化与 CLAHE 增强，MobileNetV3-Small 输出睁眼/闭眼概率，与 EAR 特征交叉验证。权重基于公开 MRL 眼部数据集训练，用于补充局部图像证据。</p>
+              <dl class="model-details"><div><dt>输入</dt><dd>眼部区域 64×64 灰度图像（OpenCV 预处理）</dd></div><div><dt>输出</dt><dd>睁眼 / 闭眼概率；闭眼概率与 EAR、时序模型融合</dd></div><div><dt>接入状态</dt><dd>已连接实时监测；ONNX Runtime Web 本地推理，需成功加载模型</dd></div></dl>
+              <div class="model-card-foot"><a href="https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.mobilenet_v3_small.html" target="_blank" rel="noopener noreferrer">Torchvision 官方文档 ↗</a><a href="monitor.html">查看实时监测 →</a></div>
+            </article>
+
+            <article class="card model-card model-card-ready" id="yolo11n">
+              <div class="model-card-top"><span class="model-number">03 / OBJECT DETECTION</span><span class="chip safe"><span class="status-dot"></span>已接入</span></div>
+              <h3>YOLO11n</h3><p class="model-subtitle">Ultralytics · 轻量目标检测</p>
+              <p class="model-description">已接入浏览器本地推理，检测驾驶画面中的手持手机，触发“分心使用手机”事件；检测框与人脸位置共同判断贴耳通话姿态。</p>
+              <dl class="model-details"><div><dt>输入</dt><dd>摄像头视频帧（letterbox 640×640）</dd></div><div><dt>输出</dt><dd>目标边界框、类别和置信度；当前启用 COCO“cell phone”类别识别</dd></div><div><dt>接入状态</dt><dd>已连接实时监测；ONNX Runtime Web 本地推理，需成功加载模型</dd></div></dl>
+              <div class="model-card-foot"><a href="https://docs.ultralytics.com/models/yolo11/" target="_blank" rel="noopener noreferrer">Ultralytics 官方文档 ↗</a><a href="monitor.html">查看实时监测 →</a></div>
+            </article>
+
+            <article class="card model-card model-card-ready" id="causal-tcn">
+              <div class="model-card-top"><span class="model-number">04 / TEMPORAL MODELING</span><div class="model-badges"><span class="model-new-badge">新增</span><span class="chip safe"><span class="status-dot"></span>已接入</span></div></div>
+              <h3>因果 TCN</h3><p class="model-subtitle">Temporal Convolutional Network · 时序建模</p>
+              <p class="model-description">已接入浏览器本地推理：以 5Hz 采样 EAR、MAR、PERCLOS、头姿与闭眼时长，32 帧因果窗口输出时序疲劳概率，与规则判断交叉验证。权重由站内时序规则蒸馏训练，用于学习式融合与平滑，不代表道路或临床诊断。</p>
+              <dl class="model-details"><div><dt>输入</dt><dd>32×6 特征序列（EAR、MAR、PERCLOS、横向/俯仰头姿、闭眼时长）</dd></div><div><dt>输出</dt><dd>alert / fatigued 概率；与眼状态分类和规则结果融合</dd></div><div><dt>接入状态</dt><dd>已连接实时监测；ONNX Runtime Web 本地推理，需完成 6.4 秒有效采样</dd></div></dl>
+              <div class="model-card-foot"><a href="https://arxiv.org/abs/1803.01271" target="_blank" rel="noopener noreferrer">TCN 原始论文 ↗</a><a href="monitor.html">查看实时监测 →</a></div>
+            </article>
+
+            <article class="card model-card model-card-ready" id="6drepnet">
+              <div class="model-card-top"><span class="model-number">05 / HEAD POSE ESTIMATION</span><span class="chip safe"><span class="status-dot"></span>已接入</span></div>
+              <h3>6DRepNet</h3><p class="model-subtitle">6D 旋转表示 · 头部姿态估计</p>
+              <p class="model-description">已接入浏览器本地推理，估计头部三维朝向，持续低头或视线偏离时触发对应分心提醒。</p>
+              <dl class="model-details"><div><dt>输入</dt><dd>人脸关键点裁剪出的 224×224 头部图像</dd></div><div><dt>输出</dt><dd>yaw / pitch / roll 欧拉角（度）</dd></div><div><dt>接入状态</dt><dd>已连接实时监测；ONNX Runtime Web 本地推理，需成功加载模型</dd></div></dl>
+              <div class="model-card-foot"><a href="https://github.com/thohemp/6DRepNet" target="_blank" rel="noopener noreferrer">作者官方仓库 ↗</a><a href="monitor.html">查看实时监测 →</a></div>
+            </article>
+
+            <article class="card model-card model-card-ready" id="yolov8">
+              <div class="model-card-top"><span class="model-number">06 / OBJECT DETECTION</span><div class="model-badges"><span class="model-new-badge">新增</span><span class="chip safe"><span class="status-dot"></span>已接入</span></div></div>
+              <h3>YOLOv8</h3><p class="model-subtitle">Ultralytics · 目标检测系列</p>
+              <p class="model-description">已接入 YOLOv8n-pose 姿态模型：通过人体关键点识别手腕贴耳、抬手等动作，辅助判断驾驶时的手持接打电话姿态。</p>
+              <dl class="model-details"><div><dt>输入</dt><dd>摄像头视频帧（letterbox 640×640）</dd></div><div><dt>输出</dt><dd>人体边界框、置信度和 17 个 COCO 关键点</dd></div><div><dt>接入状态</dt><dd>已连接实时监测；ONNX Runtime Web 本地推理，需成功加载模型</dd></div></dl>
+              <div class="model-card-foot"><a href="https://docs.ultralytics.com/models/yolov8/" target="_blank" rel="noopener noreferrer">Ultralytics 官方文档 ↗</a><a href="monitor.html">查看实时监测 →</a></div>
+            </article>
+
+            <article class="card model-card model-card-ready" id="opencv">
+              <div class="model-card-top"><span class="model-number">07 / IMAGE PROCESSING</span><div class="model-badges"><span class="model-new-badge">新增</span><span class="chip safe"><span class="status-dot"></span>已接入</span></div></div>
+              <h3>OpenCV</h3><p class="model-subtitle">OpenCV.js 4.3 · 图像处理库</p>
+              <p class="model-description">OpenCV.js 在浏览器内完成眼部 ROI 裁剪、灰度化、亮度/对比度/Laplacian 清晰度评估与 CLAHE 增强，为 MobileNetV3 提供稳定输入，并在监测页实时显示画面质量。OpenCV 是视觉处理库，不是新增训练模型。</p>
+              <dl class="model-details"><div><dt>输入</dt><dd>摄像头视频帧与 MediaPipe 眼部区域</dd></div><div><dt>输出</dt><dd>亮度、对比度、清晰度、画质等级与增强后的眼部图像</dd></div><div><dt>接入状态</dt><dd>已连接实时监测；OpenCV.js WASM 在浏览器本地运行</dd></div></dl>
+              <div class="model-card-foot"><a href="https://docs.opencv.org/4.x/" target="_blank" rel="noopener noreferrer">OpenCV 官方文档 ↗</a><a href="monitor.html">查看实时监测 →</a></div>
+            </article>
+          </section>
+          <p class="catalog-note">MediaPipe、YOLO、6DRepNet、OpenCV 使用官方模型或运行时；MobileNetV3 权重基于公开 MRL 眼部数据集训练；因果 TCN 权重由站内时序规则蒸馏训练。所有结果仅用于驾驶安全提示，未做道路或临床验证。</p>
+        </section>
+      </main>
+    </div>
+    <nav class="bottom-nav" aria-label="移动工作台导航"><a data-nav href="../index.html"><i>⌂</i><span>工作台</span></a><a data-nav href="monitor.html"><i>◉</i><span>监测</span></a><a class="active" data-nav href="models.html" aria-current="page"><i>◇</i><span>模型</span></a><a data-nav href="alerts.html"><i>▤</i><span>事件</span></a><a data-nav href="statistics.html"><i>▥</i><span>统计</span></a><a data-nav href="ai.html"><i>✦</i><span>AI</span></a><a data-nav href="settings.html"><i>⚙</i><span>设置</span></a></nav>
+    <script src="js/config.js?v=20261026-1"></script>
+    <script src="js/common.js?v=20261026-1"></script>
+    <script src="js/data.js?v=20261117-2"></script>
+    <script src="js/auth-client.js?v=20261026-1"></script>
+    <script src="js/auth-guard.js?v=20261026-1"></script>
+    <script src="js/app-shell.js?v=20261026-1"></script>
+  </body>
+</html>
